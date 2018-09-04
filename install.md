@@ -34,8 +34,8 @@ the UNSTABLE track. It is possible to switch update tracks
 post-installation. See the Updating trident section for instructions on
 switching update repositories.
 
-Installation files can be downloaded from the [trident
-website](https://www.trident.org/downloads/).
+Installation files can be downloaded from the [Project trident
+website](http://project-trident.org)
 
 Figure %s \<downloadscreen1\> below shows the |trident| website, and how
 to download a STABLE or UNSTABLE version of |trident|. It also shows a
@@ -80,10 +80,6 @@ checksum verification utility.
 
 > **note**
 >
-> Only one of the checksums needs to be verified. The [trident
-> website](https://www.trident.org/downloads/) lists *.MD5*, *SHA256*,
-> and *.SIG* files. The [trident
-> website](https://www.trident.org/downloads/) has all file types.
 
 If using a Windows system, download and install a utility such as
 [Raymond's MD5 & SHA Checksum
