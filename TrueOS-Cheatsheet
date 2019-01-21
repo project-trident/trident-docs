@@ -1,0 +1,359 @@
+TrueOS Tips, Tricks, and FAQ
+ 
+1:  This is a public FAQ for users to post their most-used tips or frequently asked questions. Please note that this is not a discussion thread - please create new topics for any discussion.
+Formatting
+    1. One tip or FAQ per post please
+    2. Put a headline title at the top of your post (### Some Title Here) which summarizes the contents
+    3. When possible, try to include both graphical configuration changes and command-line changes to accomplish the same task.
+If a tip or trick gets out-of-date, please let a moderator know and we can remove stale tips/questions.
+Quick Links for references:
+    1. TrueOS Handbook 367
+    2. Lumina Desktop Handbook 146
+ 
+2:  Resyncing System Clock
+If your system time gets out of date for some reason (daylight savings, etc), then it can be easily re-synced by restarting the “openntpd” service.
+    • [Command Line]
+sudo service openntpd restart
+    • [Graphical]
+Control Panel -> System Management -> Services -> Select the “openntpd” service and click the restart button in the lower-left.
+ 
+3:  What is the difference between STABLE and UNSTABLE?
+    • STABLE:
+This is the static release branch of TrueOS and has a 6-month lifetime between updates. It has a higher level of testing and quality-assurance checks to ensure a higher level of reliability for it’s 6-month lifespan.
+IMPORTANT NOTE: This means that applications and utilities will not receive updates to newer versions during the 6-month period.
+    • UNSTABLE:
+This is the rolling-release branch of TrueOS where updates are regularly pushed out every week or two (sometimes multiple times a week - depends on many factors). It will generally have a lower level of manual testing (especially for 3rd-party applications and packages), but ensures that newer versions of FreeBSD and 3rd-party applications are available in a timely manner.
+    • Switching between branches
+        ◦ [Command Line]
+Edit the “/usr/local/etc/trueos.conf” file and change the “PACKAGE_SET:” option to either “STABLE” or “UNSTABLE”. After that, run pc-updatemanager syncconf to automatically push any changes to your other package config settings, and then run pc-updatemanager pkgupdate to begin downloading/staging the updates. Run pc-updatemanager startupdate to restart the system and perform the updates once the staging procedures are completed.
+        ◦ [Graphical]
+Open up the Control Panel -> Update Manager, then go to the “Settings” tab and select the branch that you would like to move to. Click “Save Settings” to apply that change, then go to the “Updates” tab and start the probe/staging of updates. When the updates are staged, follow the prompt to restart the system to apply the updates.
+ 
+4:  Customizing the List of Favourite Applications and Folders in Lumina’s Main Menu
+    • Command Line
+        1. Open the ~/.config/lumina-desktop/favorites.list file with your preferred editor.
+        2. Add /remove lines according to the existing ones.
+        3. Example:
+To add the favourite folder ~/.config to the list, add the line:
+.config::::dir::::/usr/home/{user}/.config
+        4. Irrespective of the sequence within the favorites.list the main menu is sorted alphabetically.
+    • Graphical
+        1. Removing Items
+Open the Main Menu and right click on the item to remove and choose “Remove from Favorites”.
+        2. Adding Applications
+Open the Main Menu and Browse Applications. Right click on the application to add and choose “Add to Favorites”.
+ 
+5:  Where is the Recycle Bin on the Lumina Desktop?
+(The entity which allows you to trash a file without deleting it from the system at once.)
+    • Lumina doesn’t have and doesn’t need a recycle bin.
+Lumina does not use the “Trash” specifications from freedesktop.org 7 (formerly known as the X Desktop Group (XDG)). This is because Lumina was written with the idea that it would be used on systems utilizing the open ZFS* file system and logical volume manager. ZFS snapshots are the “right” way to manage/recover files rather than the “fake” way through the trash specifications.
+(*ZFS formerly known as Zettabyte File System is no longer considered an abbreviation but just a designation.)
+ 
+6:  How to make text console(Ctrl-Alt-F2) functional on Nvidia cards
+Edit your /boot/loader.conf to include:
+hw.vga.textmode=1
+Note: This will disable the TrueOS logo you see early in the boot process.
+ 
+7:  How to install VirtualBox
+Install the virtualbox-ose from AppCafe.
+After this you need to do the following steps, the source will be provided in a link at the end:
+Add the following line to /boot/loader.conf:
+vboxdrv_load=“YES”
+Add the following line to /etc/rc.conf:
+vboxnet_enable=“YES”
+Add yourself to the vboxusers group:
+pw groupmod vboxusers -m yourusername
+Add these lines to /etc/devfs.conf:
+own vboxnetctl root:vboxusers
+perm vboxnetctl 0660
+Reboot the computer and everything should be good for you to run:
+VirtualBox
+As the link shows, a reboot isn’t required if you do the extra steps. Here is the link(21.6.1):
+https://www.freebsd.org/doc/handbook/virtualization-host-virtualbox.html 21
+ 
+8:  Using telegram desktop on TrueOS
+TrueOS repositories contain a package that provides the Linux binaries for the Telegram Desktop client. Install it using
+pkg install linux-telegram-desktop
+Calls do not work. Everything else works.
+Potential problems
+The following are things I encountered while installing/running telegram-desktop
+Issues during linux-c7 installation
+This package has linux-c7 as its dependency. If the package installation of linux-c7 fails and complains about being unable to remove existing files in /compat/linux, remove the contents of /compat/linux manually and reboot. Then continue installation.
+When you do a manual removal, be careful , since the following are symlinks. Only remove these symlink files, not the directories they point to.
+/compat/linux/bin
+/compat/linux/lib
+/compat/linux/lib64
+/compat/linux/run
+/compat/linux/sbin
+Running telegram-desktop
+The command to run Telegram Desktop client is
+telegram-desktop
+This may not work or might crash. In some cases it will ask you to login every time you start the app. If you trust the packagers and the telegram desktop code, run it with sudo.
+sudo telegram-desktop
+If all of this is too bothersome, just wait till TrueOS syncs its ports tree with FreeBSD’s. There is a native build in the ports tree now.
+ 
+9:  IPFW Rules for NFS server
+Add the following to /etc/ipfw.custom. If you want to allow from “any” replace the IP address with the word “any”, if you want to allow a single IP, replace with yours.
+Then either restart the firewall or simply sh /etc/ipfw.custom as root.
+# Set rules command prefix
+cmd="ipfw -q add"
+ 
+# Allow NFS from 192.168.254.43
+# NFS needs 2049 for nfsd
+# rpcbind at 111
+# unfortunately statd/mountd anything below 1024
+# Openport rules are added at 10000, default deny at 64000,
+# so lets put these at 63000
+$cmd 63000 allow tcp from 192.168.237.73 to me dst-port 111-1024 in keep-state :default
+$cmd 63001 allow udp from 192.168.237.73 to me dst-port 111-1024 in keep-state :default
+$cmd 63002 allow udp from 192.168.237.73 to me dst-port 2049 in keep-state :default
+$cmd 63003 allow tcp from 192.168.237.73 to me dst-port 2049 in keep-state :default
+ 
+10: Postgresql 10 server on TrueOS
+Install via pkg (as root or sudo )
+pkg install postgresql10-server
+Running it through FreeBSD init system (rc)
+Since there are no open-rc scripts for it, you can run it via the RC script like so.
+sudo /usr/local/etc/rc.d/postgresql start
+Running postgresql through open-rc
+I hacked up an init script. Copy the following code snippet into /usr/local/etc/init.d/postgresql
+and make sure it has the same permissions and ownerships as other files in /usr/local/etc/init.d/
+#!/sbin/openrc-run
+ 
+name=postgresql
+ 
+# set defaults
+postgresql_enable=${postgresql_enable:-"NO"}
+postgresql_flags=${postgresql_flags:-"-w -s -m fast"}
+postgresql_user=${postgresql_user:-"postgres"}
+eval postgresql_data=${postgresql_data:-"~${postgresql_user}/data10"}
+postgresql_class=${postgresql_class:-"default"}
+postgresql_initdb_flags=${postgresql_initdb_flags:-"--encoding=utf-8 --lc-collate=C"}
+extra_commands="initdb reload"
+ 
+# Command
+command=/usr/local/bin/pg_ctl
+command_args="-D ${postgresql_data} ${postgresql_flags}"
+ 
+ 
+postgresql_initdb()
+{
+    su -l -c ${postgresql_class} ${postgresql_user} -c "exec /usr/local/bin/initdb ${postgresql_initdb_flags} -D ${postgresql_data} -U ${postgresql_user}"
+}
+ 
+get_config() {
+[ -f ${postgresql_data%/}/postgresql.conf ] || return 1
+eval echo $(sed -e 's:#.*::' ${postgresql_data%/}/postgresql.conf \
+    | awk '$1 == "'$1'" { print ($2 == "=" ? $3 : $2) }')
+}
+ 
+depend() {
+    use net
+    provide postgresql
+ 
+    if [ "$(get_config log_destination)" = "syslog" ]; then
+        use logger
+    fi
+}
+ 
+checkconfig() {
+ 
+# Check that postgresql_data directory exists
+if [ ! -d ${postgresql_data} ] ; then
+    eerror "Directory not found: ${postgresql_data}"
+    eerror "HINT: Ensure that postgresql_data points to the right path."
+    return 1
+fi
+ 
+# Check for the existence of PostgreSQL's config files, and set the
+# proper mode and ownership.
+# Only three files should be checked as potentially other files
+# may be in PGDATA that should not be touched.
+local file
+for file in postgresql pg_hba pg_ident ; do
+    file="${postgresql_data%/}/${file}.conf"
+    if [ -f ${file} ] ; then
+        checkpath -f -m 0600 -o postgres:postgres ${file}
+    else
+        eerror "${file} not found"
+        return 1
+    fi
+done
+ 
+}
+ 
+start_pre(){
+    checkconfig || return 1
+    ebegin "Starting Postgresql10"
+    rm -f ${postgresql_data%/}/postmaster.pid
+}
+ 
+start() {
+    su -l ${postgresql_user} -c "exec ${command} ${command_args} start"
+}
+ 
+Now you can start postgresql service normally
+service postgresql start
+You can run the following to have it start up with the system by default.
+rc-update add postgres
+I read rabbitmq’s init file, the postgres rc.d init file and Gentoo’s open-rc file to come up with the script. No unicorns were harmed in its making.
+stop() {
+    ebegin "Stopping Postgresql10"
+    su -l ${postgresql_user} -c "exec ${command} ${command_args} stop"
+}
+ 
+initdb(){
+  postgresql_initdb
+}
+ 
+status(){
+  su -l ${postgresql_user} -c "exec ${command} ${command_args} status"
+}
+ 
+reload() {
+    ebegin "Reloading Postgres10 config data"
+    su -l ${postgresql_user} -c "exec ${command} ${command_args} reload"
+}
+ 
+11: Meltdown, Spectre -FreeBSD first response
+Was advised FreeBSD has made their first micro-code update available. Use at your own risk
+https://www.freshports.org/sysutils/devcpu-data/ 18
+pkg-message:
+Installing this port will allow host startup to update the CPU microcode on
+a FreeBSD system automatically. In order to enable this feature, add the
+following to the system’s /etc/rc.conf:
+microcode_update_enable=“YES”
+To ensure the update is applied, reboot the system or start the microcode update
+service via:
+service microcode_update start
+If the CPU requires a microcode update, a console message such as the following
+will appear:
+Updating CPU Microcode…
+/usr/local/share/cpucontrol/m32306c3_00000022.fw: updating cpu /dev/cpuctl0 from rev 0x17 to rev 0x22… done.
+/usr/local/share/cpucontrol/m32306c3_00000022.fw: updating cpu /dev/cpuctl2 from rev 0x17 to rev 0x22… done.
+/usr/local/share/cpucontrol/m32306c3_00000022.fw: updating cpu /dev/cpuctl4 from rev 0x17 to rev 0x22… done.
+/usr/local/share/cpucontrol/m32306c3_00000022.fw: updating cpu /dev/cpuctl6 from rev 0x17 to rev 0x22… done.
+Done.
+Master Sites:
+There is no master site for this port.
+ 
+12: Open-RC scripting and how to write
+    https://www.trueos.org/blog/openrc-update-simplifying-openrc-scripts/
+ 
+13: Settings in /etc/periodic.conf
+I like to override some of the defaults for the periodic scripts. Don’t email to root, keep output in a file. Don’t do DNS lookups, clean /tmp, add ZFS, NTP and SMART status in the daily log. Here’s how I do it:
+# periodic.conf overrides
+# output to file
+daily_output="/var/log/daily.log"
+daily_status_security_output="/var/log/dailysecurity.log"
+daily_status_network_usedns="NO"
+daily_status_named_usedns="NO"
+daily_clean_tmps_enable="YES"
+daily_status_ntpd_enable="NO"
+daily_status_zfs_enable="YES"
+daily_scrub_zfs_enable="NO"    # set to YES for autoscrubbing at threshold days
+daily_scrub_zfs_default_threshold="45"          # days between scrubs
+daily_status_smart_enable="YES"
+daily_status_smart_devices="/dev/ada0 /dev/ada1 /dev/ada2"
+daily_queuerun_enable="NO"
+weekly_output="/var/log/weekly.log"
+weekly_status_security_output="/var/log/weeklysecurity.log"
+monthly_output="/var/log/monthly.log"
+monthly_status_security_output="/var/log/monthlysecurity.log"
+ 
+14: Cleaning Linux partitions in TrueOS and w/o Linux distro
+    https://discourse.trueos.org/t/tip-and-tricks-cleaning-linux-partitions-in-trueos-and-w-o-linux-distro/2400?source_topic_id=2081
+ 
+15: ZFS and how to access missing pools:
+    https://discourse.trueos.org/t/zfs-and-how-to-access-missing-pools/2476/4
+ 
+16: USB-Audio as default audio device (HOWTO):
+A) Read man-page:
+ 
+% man snd | grep -A 17 hw.snd.verbose
+     hw.snd.verbose
+             Level of verbosity for the /dev/sndstat device.  Higher values include
+             more output and the highest level, four, should be used when reporting
+             problems.  Other options include:
+ 
+             0   Installed devices and their allocated bus resources.
+ 
+             1   The number of playback, record, virtual channels, and flags per
+                 device.
+ 
+             2   Channel information per device including the channel's current
+                 format, speed, and pseudo device statistics such as buffer
+                 overruns and buffer underruns.
+ 
+             3   File names and versions of the currently loaded sound modules.
+ 
+             4   Various messages intended for debugging.
+ 
+B) Set settings accordingly:
+ 
+% cat /boot/loader.conf.local | grep snd
+snd_uaudio_load="YES"
+hw.snd.verbose="3"
+ 
+C) Reboot
+ 
+D) Check /dev/sndstat:
+ 
+% cat /dev/sndstat  | grep snd_uaudio
+pcm4: <USB audio> at ? kld snd_uaudio (1p:1v/1r:1v) default
+ 
+E) Set settings accordingly:
+ 
+% cat /boot/loader.conf.local | grep 'snd.default_unit'
+hw.snd.default_unit="4"
+ 
+F) Reboot
+ 
+17: A rough overview of using Nvidia Optimus on FreeBSD.
+https://wiki.freebsd.org/Graphics/OptimusVideoSupport 34
+ 
+18: iPhone Hotspot USB tethering to TrueOS Laptop
+Look at this link --> iPhone Hotspot USB tethering to TrueOS Laptop 20
+ 
+19: FreeBSD USB Disk and ZVOL Encryption with GELI
+https://antranigv.am/weblog_en/posts/freebsd-geli-encryption-usb-and-zvol/ 17
+ 
+20: How to change boot-up delay and root password.
+To change the timing of boot-up delay go to:
+/boot/defaults/loader.conf
+Edit the last line in the loader.conf file to desired delay at:
+Speed up boot time
+autoboot_delay="02"   <-- indicates delay in seconds
+To change root password
+During system boot-up, enter a single user mode
+Then type:
+mount -uw /
+Next type:
+passwd
+Enter your new password for root
+Next type:
+exit
+Now, you can login with your new root’s password
+ 
+21: man loader.conf:
+FILES
+     /boot/defaults/loader.conf  default settings -- do not change this file.
+     /boot/loader.4th            defines the commands used by loader to read and
+                                 process loader.conf.
+     /boot/loader.conf           user defined settings.
+     /boot/loader.conf.local     machine-specific settings for sites with a common
+                                 loader.conf.
+22: #UEFI graphics screw up
+    https://github.com/trueos/trueos/wiki/UEFI-Resolution
+ 
+23: A quick Life Preserver howto - Thank you @michael.ger
+https://discourse.trueos.org/t/freenas-remote-replication-with-life-preserver/3057/7
+ 
+24: Some Lenovo, and probably other computers with UEFI video garbage
+UEFI Resolution
+Kris Moore edited this page on Jun 6 · 1 revision 1
+On some systems when booted via UEFI you may end up in a console resolution that isn’t supported, resulting in a corrupt display. To work-around this issue you can do the following:
+At the boot-loader menu, drop to the Command-Prompt (Under Advanced). Run the command ‘gop set 0’, replacing 0 with 1/2/3/4 until you find a resolution that seems to work with your system.
+Once you’ve come up with a working resolution you can hard-code it by putting the 'gop set ’ command in /boot/loader.rc.local.
+original link --> UEFI Resolution
+https://github.com/trueos/trueos/wiki/UEFI-Resolution
