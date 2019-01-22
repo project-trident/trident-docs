@@ -1,34 +1,75 @@
-TrueOS Tips, Tricks, and FAQ
- 
-1:  This is a public FAQ for users to post their most-used tips or frequently asked questions. Please note that this is not a discussion thread - please create new topics for any discussion.
-Formatting
-    1. One tip or FAQ per post please
-    2. Put a headline title at the top of your post (### Some Title Here) which summarizes the contents
-    3. When possible, try to include both graphical configuration changes and command-line changes to accomplish the same task.
-If a tip or trick gets out-of-date, please let a moderator know and we can remove stale tips/questions.
+TrueOS Forum Tips, Tricks, and FAQ
+==================================
+
+This is a public FAQ for users to post their most used tips or frequently asked questions.
+Please note that this is not a discussion thread.
+Please create new topics for any discussion.
+
+Post Formatting
+---------------
+
+1. One tip or FAQ per post, please.
+2. Write a title that summarizes the contents of the post.
+3. Try to include both graphical configuration changes and command-line changes to accomplish the same task.
+
+Please let a moderator know if a tip becomes obsolete so it can be removed.
+
 Quick Links for references:
-    1. TrueOS Handbook 367
-    2. Lumina Desktop Handbook 146
+
+1. TrueOS Handbook
+2. Lumina Desktop Handbook
  
-2:  Resyncing System Clock
-If your system time gets out of date for some reason (daylight savings, etc), then it can be easily re-synced by restarting the “openntpd” service.
-    • [Command Line]
-sudo service openntpd restart
-    • [Graphical]
-Control Panel -> System Management -> Services -> Select the “openntpd” service and click the restart button in the lower-left.
+Resyncing System Clock
+----------------------
+
+If the system time gets out of date, it can be resynced by restarting the “openntpd” service:
+
+* [Command Line]
+  
+  ```
+  sudo service openntpd restart
+  ```
+
+* [Graphical]
+
+  Go to the Control Panel -> System Management -> Services.
+  Select the “openntpd” service and click the restart button in the lower-left corner.
  
-3:  What is the difference between STABLE and UNSTABLE?
-    • STABLE:
-This is the static release branch of TrueOS and has a 6-month lifetime between updates. It has a higher level of testing and quality-assurance checks to ensure a higher level of reliability for it’s 6-month lifespan.
-IMPORTANT NOTE: This means that applications and utilities will not receive updates to newer versions during the 6-month period.
-    • UNSTABLE:
-This is the rolling-release branch of TrueOS where updates are regularly pushed out every week or two (sometimes multiple times a week - depends on many factors). It will generally have a lower level of manual testing (especially for 3rd-party applications and packages), but ensures that newer versions of FreeBSD and 3rd-party applications are available in a timely manner.
-    • Switching between branches
-        ◦ [Command Line]
-Edit the “/usr/local/etc/trueos.conf” file and change the “PACKAGE_SET:” option to either “STABLE” or “UNSTABLE”. After that, run pc-updatemanager syncconf to automatically push any changes to your other package config settings, and then run pc-updatemanager pkgupdate to begin downloading/staging the updates. Run pc-updatemanager startupdate to restart the system and perform the updates once the staging procedures are completed.
-        ◦ [Graphical]
-Open up the Control Panel -> Update Manager, then go to the “Settings” tab and select the branch that you would like to move to. Click “Save Settings” to apply that change, then go to the “Updates” tab and start the probe/staging of updates. When the updates are staged, follow the prompt to restart the system to apply the updates.
+What is the difference between the STABLE and UNSTABLE branches?
+----------------------------------------------------------------
+
+**STABLE:**
+
+This is the static release branch of TrueOS and has a 6-month lifetime between updates.
+It has a higher level of testing and quality-assurance checks to ensure a higher level of reliability for its 6-month lifespan.
+IMPORTANT NOTE: applications and utilities do not receive updates to newer versions during the 6-month period.
+
+**UNSTABLE:**
+
+This is the rolling-release branch of TrueOS. Updates are regularly pushed out every week or two, or even sometimes multiple times a week.
+It typically has less manual testing, especially for 3rd-party applications and packages.
+However, it does ensures that newer versions of FreeBSD and 3rd-party applications are always available.
+
+Switching between branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* [Command Line]
+
+  `sudo edit /usr/local/etc/trueos.conf`
+  Change `PACKAGE_SET:` to either `STABLE` or `UNSTABLE`.
+  `pc-updatemanager syncconf` automatically pushes any changes to your other package config settings.
+  `pc-updatemanager pkgupdate` begins downloading and staging any updates.
+  `pc-updatemanager startupdate` restarts the system and performs the update when staging is complete.
+
+* [Graphical]
+
+  Go to the Control Panel -> Update Manager.
+  Click the "Settings” tab and select the branch to use for system updates.
+  Click “Save Settings” to apply the change.
+  Click the “Updates” tab and search for and stage any updates.
+  After updates are finished staging, follow the prompt to restart the system and apply the updates.
  
+
 4:  Customizing the List of Favourite Applications and Folders in Lumina’s Main Menu
     • Command Line
         1. Open the ~/.config/lumina-desktop/favorites.list file with your preferred editor.
