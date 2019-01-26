@@ -398,3 +398,10 @@ At the boot-loader menu, drop to the Command-Prompt (Under Advanced). Run the co
 Once you’ve come up with a working resolution you can hard-code it by putting the 'gop set ’ command in /boot/loader.rc.local.
 original link --> UEFI Resolution
 https://github.com/trueos/trueos/wiki/UEFI-Resolution
+
+25: Install Dev Packages:
+pkg install llvm70
+pkg install -g "OS-*-development"
+
+may also need: 
+sudo pkg install autoconf autogen automake autotools autoconf autogen automake autotools mercurial
