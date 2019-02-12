@@ -1,145 +1,106 @@
-Introduction
-============
+# Introduction
 
-Written by users of the |Trident| operating system. Maintained and edited
-by Dru Lavigne and Tim Moore.
+Welcome to Project Trident!
 
-Welcome to |Trident|!
+Project Trident is a desktop distribution of [TrueOS](https://www.trueos.org), which is a rolling-release variant of [FreeBSD](https://www.freebsd.org).
+The goal of the Project is to provide a simple, secure, and highly usable FreeBSD experience.
+Project Trident is completely independent and financially backed through the generous contributions of the Open Source community.
 
-This Handbook covers the installation and use of |Trident|. This Handbook
-is a work in progress and relies on the contributions of many
-individuals. To assist with the Handbook, read the section about
-Contributing Documentation changes \<Documentation\>. If using IRC, join
-the \#Trident channel on the Freenode network to converse with other
-|Trident| users. The Trident Community channel on
-[Telegram](https://telegram.org/) is another popular option for users.
+[Project Trident](https://www.Trident.org) began in 2018 when TrueOS was reorganized into a scaled down server installation of FreeBSD.
+The discontinued desktop portion of TrueOS was taken by Ken Moore and J.T. Pennington and rebuilt into Project Trident.
 
-[Trident](https://www.Trident.org) (formerly known as |pcbsd|) began in
-2005 when Kris Moore presented the first beta version of a FreeBSD
-operating system pre-configured for desktop use. Since then, |Trident|
-has matured into a polished, feature-rich, free-of-charge, Open Source
-operating system that meets the desktop or server needs of the beginner
-to the advanced user alike.
+Project Trident is essentially a customized installation of TrueOS and FreeBSD, not a forked derivative.
+Project Trident has a simple graphical installer that has partition support and other customization.
+The underlying TrueOS/FreeBSD system is kept intact and provides a fully functional FreeBSD system.
+Other differences from FreeBSD include:
 
-|Trident| is essentially a customized installation of FreeBSD, not a
-forked derivative. Since the underlying FreeBSD system is kept intact,
-you have a fully functional FreeBSD system under the hood. |Trident|
-provides an easy-to-use installer which can be used to install a desktop
-or a server version of FreeBSD. Other differences from FreeBSD include:
+-   Project Trident pre-configures the BSD-licensed Lumina desktop environment.
+    Additional desktop environments can be installed and appear in the graphical login menu.
 
--   |Trident| pre-configures the BSD-licensed |lumina| desktop
-    environment during a desktop installation. Additional desktop
-    environments can be installed and appear in the graphical login
-    menu, allowing the user to select their preferred environment.
--   The |Trident| installer supports configuring ZFS and encryption
-    during installation.
--   |Trident| provides both a graphical and a command line software
-    management system.
--   |Trident| provides many graphical utilities for system configuration
-    and management. These utilities have both a command line equivalent
-    and a REST and WebSocket API so they can also be used to manage
-    multiple systems.
--   |Trident| comes pre-configured with a number of automatic scripts for
-    performing tasks like connecting digital cameras or USB memory
-    sticks.
--   The |Trident| boot menu supports boot environments or snapshots of
-    the operating system. The |Trident| Update Manager automatically adds
-    a new boot environment to the boot menu before updating the
-    operating system. With this functionality, if an update fails, the
-    system can be rebooted into the previous version of the operating
-    system before the update was installed. This allows for easy
-    recovery if any issues happen during the update process.
+-   The Project Trident installer supports configuring ZFS partitions during installation.
 
-While started as an independent project, |Trident| has been financially
-backed and supported by the enterprise-class hardware solutions provider
-[iXsystems](https://www.ixsystems.com/) since October 2006.
+-   Project Trident has both graphical and command line software management systems.
 
-Features
---------
+-   Project Trident provides many graphical utilities for system configuration and management.
 
-|Trident| provides many features:
+-   Project Trident comes pre-configured with a number of automatic scripts connecting USB memory sticks.
 
--   **Easy installation:** To install either a graphical desktop or
-    command-line server, simply insert the installation media, reboot
-    the system to start the installer, and answer a few questions in the
-    installation menus.
--   **Automatically configured hardware:** Video, sound, network, and
-    other devices are configured automatically during installation.
--   **Customizable desktop interface:** |Trident| installs the |lumina|
-    desktop but additional desktop environments can be installed to
-    support day-to-day computing needs.
--   **Easy software management:** With the |sysadm| AppCafe \<appcafe\>,
-    installing, upgrading, and uninstalling software is safe and easy.
--   **Lots of software available:** |appcafe| is used to install
-    software ported to FreeBSD (currently over 26,100 applications).
--   **Easy to update:** |Trident| (with |sysadm|) provides a built-in
-    Update Manager \<update-manager\> which provides notifications of
-    available updates. This utility makes it easy to apply operating
-    system security fixes, bug fixes, and system enhancements.
-    Additionally, the Update Manager is used to upgrade the operating
-    system or update installed software.
--   **No fragmentation:** |Trident| hard drives never need defragmenting
-    and are formatted with OpenZFS, a self-healing filesystem.
--   **Laptop support:** Provides power saving, swap space encryption,
-    and automatic switching between wired and wifi network connections.
-    The rolling release model of |Trident| provides an environment to
-    quickly add support for new hardware.
--   **Easy system administration:** |Trident| provides many graphical
-    tools for performing system administration.
--   **Localization:** |Trident| supports a variety of native languages
-    and locales out of the box.
--   **Vibrant community:** |Trident| has a friendly and helpful
-    community \<Trident Community\>.
+-   The Project Trident boot menu supports boot environments or snapshots of the operating system.
+    The System Update Manager automatically creates a new boot environment before every update.
+    If an update fails, the system can be rebooted into an earlier boot environment.
+    This allows for easy recovery if any issues happen during the update process.
+
+These articles cover the installation and use of Project Trident.
+All documentation must be considered a "work in progress" and is wholly dependent on Project Trident community contributions.
+
+## Features
+
+Project Trident provides many features:
+
+-   **Easy installation:** Insert the installation media and reboot the system to start the installer.
+    Fill in the prompts in the installation menus.
+
+-   **Automatically configured hardware:** Video, sound, network, and other devices automatically configure during installation.
+
+-   **Customizable desktop interface:** Project Trident installs the Lumina desktop by default.
+    Additional desktop environments can also be installed to support user preferences.
+
+-   **Easy software management:** The AppCafe makes installing, upgrading, and uninstalling software safe and easy.
+
+-   **Lots of software available:** Most software ported to FreeBSD is available on Project Trident.
+    There are currently over 26,100 applications available on FreeBSD.
+
+-   **Easy to update:** Project Trident has a built-in System Update Manager.
+    This notifies the user about available updates and makes it easy to apply TrueOS security fixes, bug fixes, and system enhancements.
+    Additionally, the Update Manager is used to upgrade the operating system or update installed software.
+
+-   **No fragmentation:** Project Trident hard drives never need defragmenting and are formatted with OpenZFS, a self-healing filesystem.
+
+-   **Laptop support:** Provides power saving and automatic switching between wired and wifi network connections.
+    The rolling release model of Project Trident provides an environment to quickly add support for new hardware.
+
+-   **Easy system administration:** Project Trident provides many graphical tools for performing system administration.
+
+-   **Vibrant community:** Project Trident has a friendly and helpful community.
 
 ### Security
 
-The |Trident| system is secure by default. This section describes an
-overview of the built-in security features. Additional information about
-increasing the security of the installed system beyond the configured
-defaults are also provided in this section.
+The Project Trident system is secure by default.
+This section is an overview of the built-in security features.
+There are also tips about increasing the security of the installed system beyond the configured defaults.
 
-The security features built into |Trident| include:
+The security features built into Project Trident include:
 
--   **Naturally immune to viruses and other malware:** Most viruses are
-    written to exploit the Windows operating system and are incompatible
-    with the binaries and paths found on a |Trident| system. Antivirus
-    software is still available in the Security section of |appcafe|, as
-    this is useful when sending or forwarding email attachments to users
-    running other operating systems.
--   **Potential for serious damage is limited:** Privilege separation
-    between users and root (the administrator account) are built in to
-    |Trident|. Files and directories can only be modified by the owning
-    user, any specified groups, and root (depending on permissions). Any
-    programs or scripts executed are only granted the permissions of
-    that user. This means that a malicious program will only be able to
-    affect the files and directories owned by that user and not core
-    operating system files. Only users that are a member of the *wheel*
-    and/or *operator* groups can gain administrative access and are not
-    allowed to list the contents of a directory or access files outside
-    of the "user" and "group" permissions that have been set.
--   **Built-in firewall:** The default firewall ruleset allows access to
-    the Internet and the shares available on the network, but does not
-    allow any inbound connections to the computer.
--   **Very few services are enabled by default:** The list of services
-    that are started at boot time can be viewed by reading through the
-    output of rc-update via the command line, or by using Service
-    Manager in the |sysadm| GUI. Service Manager also allows services to
-    be started and stopped and also allow a service to be enabled or
-    disabled at boot.
--   **SSH is disabled by default:** SSH can only be enabled by the
-    superuser (also referred to as 'root' or the administrator user).
-    This setting prevents bots and other users from trying to access the
-    system. If SSH access is required and was not enabled during
-    installation, add sshd\_enable=YES to the /etc/rc.conf. The service
-    can then be started by typing the service sshd start on the command
-    line, or using the Service Manager in the |sysadm| GUI. A firewall
-    rule will also need to be added using the |sysadm|
-    Firewall Manager \<firewall-manager\> to allow SSH connections
-    through the default SSH TCP port 22.
--   **SSH root logins are disabled by default:** If SSH is enabled,
-    login as a regular user and use su or sudo when administrative
-    actions are required. Do not change this setting, as it prevents an
-    unwanted user from having complete access to the system.
+-   **Naturally immune to viruses and other malware:** Most viruses are written to exploit the Windows operating system.
+    These are incompatible with the binaries and paths found on a Project Trident system.
+    Additional antivirus software is also available in the Appcafe.
+    This is useful when sending or forwarding email attachments to users running other operating systems.
+
+-   **Potential for serious damage is limited:** Privilege separation between users and the administrator account (root) are built-in.
+    Files and directories can only be modified by root any any users and groups with permission.
+    Any executed programs or scripts are only granted the permissions of that user.
+    A malicious program can only infect the files and directories owned by the user.
+    Core operating system files are protected.
+    Only users that are *wheel* and/or *operator* group members can gain administrative access.
+    These users are still not allowed to list directory contents or access files outside of the set "user" and "group" permissions.
+
+-   **Built-in firewall:** The default firewall ruleset allows Internet access and any available network shares.
+    The firewall does not allow any inbound connections to the computer.
+
+-   **Few default services:** All boot services can be viewed in the Service Manager.
+    Service Manager also allows starting, stopping, and adding or removing from boot any system service.
+
+-   **SSH is disabled:** SSH can only be enabled by the administrator (root).
+    This prevents bots and outside individuals from accessing the Project Trident system.
+    If SSH access is required, add `sshd\_enable=YES` to **/etc/rc.conf**.
+    Then, start the service with the Service Manager or by typing `sudo service sshd start` in the command line.
+    Root access is required.
+    A firewall rule must also be added using the Firewall Manager.
+    Allow SSH connections through the default SSH TCP port *22*.
+
+-   **SSH root logins are disabled:** If SSH is enabled, login as a regular user and use `su` or `sudo` for administrative actions.
+    Do not change this setting, as it prevents an unwanted user from having complete access to the system.
+
 -   **sudo is installed:** sudo is configured to allow users in the
     *wheel* group permission to run an administrative command after
     typing the user password, not the *root* password. By default, the
@@ -157,10 +118,10 @@ The security features built into |Trident| include:
     Update Manager \<update-manager\> automatically checks for any
     updates that are available as the result of a [security
     advisory](https://www.freebsd.org/security/advisories.html)
-    affecting |Trident|. This allows the administrator to keep the
+    affecting Project Trident. This allows the administrator to keep the
     operating system fully patched against vulnerabilities with just the
     click of a mouse.
--   The |Trident| operating system and its available software packages
+-   The Project Trident operating system and its available software packages
     are built with [LibreSSL](http://www.libressl.org/), which has fewer
     vulnerabilities than OpenSSL.
 -   PersonaCrypt \<personacrypt\> allows a user to use a removable,
@@ -169,7 +130,7 @@ The security features built into |Trident| include:
     automatically forwards all Internet traffic through the [Tor
     Project's](https://www.torproject.org/) transparent proxy service.
 
-To learn more about security on FreeBSD and |Trident| systems,
+To learn more about security on FreeBSD and Project Trident systems,
 man security is a good place to start. These resources provide more
 information about security on FreeBSD based operating systems:
 
@@ -216,45 +177,45 @@ Table %s \<zfsterms\> is a brief glossary of terms used by ZFS:
 >     built-in redundancy of ZFS. To wipe a file completely from disk,
 >     the entirety of every snapshot containing the file must be pruned.
 >
-|Trident| Comparisons
+Project Trident Comparisons
 --------------------
 
-As |Trident| grows and evolves, many users appreciate comparisons with
+As Project Trident grows and evolves, many users appreciate comparisons with
 other operating systems. These comparisons are intended to help new
 users understand the abilities and features available when deciding to
-install |Trident|. Accuracy is a chief concern.
+install Project Trident. Accuracy is a chief concern.
 
 ### FreeBSD and PC-BSD
 
-These features or enhancements were introduced with |Trident| and now
-separate |Trident| from |pcbsd|:
+These features or enhancements were introduced with Project Trident and now
+separate Project Trident from |pcbsd|:
 
 > **note**
 >
 > |pcbsd| and FreeBSD are placed together as both are very similar
-> "under the hood". The differences for either OS to |Trident| are listed
+> "under the hood". The differences for either OS to Project Trident are listed
 > here.
 
 -   Based on FreeBSD-CURRENT.
 -   The GRUB bootloader has been replaced by the FreeBSD bootloader,
     which now provides both GELI and boot environment support.
--   **Quick boot times with OpenRC:** |Trident| is using
+-   **Quick boot times with OpenRC:** Project Trident is using
     [OpenRC](https://github.com/OpenRC/openrc) as part of the init
     process which allows services to be started in parallel. This
-    results in dramatically improved system boot times for |Trident|.
+    results in dramatically improved system boot times for Project Trident.
     OpenRC also improves general service management. One example is the
     ability to automatically run when new elements are introduced to the
     system, such as plugging in an Ethernet cable. Using OpenRC allows
-    |Trident| to use some system services that are different from
+    Project Trident to use some system services that are different from
     FreeBSD. These differences are listed in Table %s \<sysserv\>
 
     > **note**
     >
     > The sysserv table is updated as development continues on the
-    > |Trident| implementation of OpenRC. For a complete list of all
+    > Project Trident implementation of OpenRC. For a complete list of all
     > available services in OpenRC, see rcuprnlvl.
 
--   A |Trident| installation includes the |lumina| Desktop. Additional
+-   A Project Trident installation includes the |lumina| Desktop. Additional
     window managers and desktop environments can be installed using the
     |appcafe|. Meta packages are available for popular desktop
     environments to allow easy installation of all required packages.
@@ -263,7 +224,7 @@ separate |Trident| from |pcbsd|:
     Panel. Most of the utilities from Control Panel are rewritten to use
     the |sysadm| middleware. Under the hood, |sysadm| provides REST and
     WebSocket APIs for securely managing local or remote FreeBSD and
-    |Trident| systems.
+    Project Trident systems.
 -   Many utilities have been converted to the |sysadm| API and many more
     are available through [SysAdm](https://sysadm.us/handbook/client/):
     -   AppCafe
@@ -313,28 +274,28 @@ separate |Trident| from |pcbsd|:
     are removed.
 -   pc-thinclient is removed as it is deprecated.
 
-### Linux and |Trident|
+### Linux and Project Trident
 
-|Trident| is based on FreeBSD, meaning it is not a Linux distribution.
+Project Trident is based on FreeBSD, meaning it is not a Linux distribution.
 While there are many similarities with Linux, some features have
 different names and some commands have different flags or output on a
 BSD based system. This section will cover some of these differences.
 
 BSD and Linux use different filesystems. Many Linux distros use EXT2,
-EXT3, EXT4, or BTRFS, while |Trident| uses UFS or OpenZFS. In order to
+EXT3, EXT4, or BTRFS, while Project Trident uses UFS or OpenZFS. In order to
 dual-boot with Linux or access data on an external drive formatted with
 another filesystem, it is imperative to research if the filesystem used
 is accessible to both operating systems.
 
 Table %s \<filesys support\> summarizes the various filesystems commonly
-used by desktop systems. |Trident| automatically mounts several
+used by desktop systems. Project Trident automatically mounts several
 filesystems: *FAT16*, *FAT32*, *EXT2*, *EXT3* (without journaling),
 *EXT4* (read-only), *NTFS5*, *NTFS6*, and *XFS*.
 
 > > **note**
 > >
 > > A comparison of some popular graphical file management
-> > :   utilities available in |Trident| can be found in the
+> > :   utilities available in Project Trident can be found in the
 > >     Files and File Sharing section.
 > >
 > **note**
@@ -344,7 +305,7 @@ filesystems: *FAT16*, *FAT32*, *EXT2*, *EXT3* (without journaling),
 > the package cannot come pre-installed by the OS. The user must
 > manually install the *fusefs-exfat* package using |appcafe| or
 > pkg install fusefs-exfat on the command line. When complete, the
-> |Trident| automount systems are already aware of exFAT and are able to
+> Project Trident automount systems are already aware of exFAT and are able to
 > automatically mount/access the devices as needed.
 
 Linux and BSD use different naming conventions for devices. Here are
@@ -402,7 +363,7 @@ about some of the differences between BSD and Linux:
 
 ### Trident and Windows
 
-|Trident| uses several similar, but different elements to their
+Project Trident uses several similar, but different elements to their
 counterparts on Windows. Table %s \<troswinapps\> highlights a few of
 these:
 
@@ -424,11 +385,11 @@ differences between Windows and BSD:
 
 Mac OS X is related to FreeBSD, resulting in some system level
 similarities. Many of the features that make Mac OS X a popular
-operating system are found in |Trident|. |Trident|, like Mac OS X,
+operating system are found in Project Trident. Project Trident, like Mac OS X,
 includes built in securtiy features and access to many free programs and
 apps. Mac OS X comes with some of these programs pre-installed, but
-|Trident| users can use the App Cafe to download programs that fill many
-of the same functions. |Trident|is intentionally a light weight install.
+Project Trident users can use the App Cafe to download programs that fill many
+of the same functions. Project Tridentis intentionally a light weight install.
 This allows for easy user customization.
 
 Virtualization
@@ -451,7 +412,7 @@ may help.
 ### bhyve
 
 bhyve (pronounced bee hive) is a type-2 hypervisor that runs natively on
-|Trident| and originally developed on FreeBSD. bhyve runs FreeBSD 9+,
+Project Trident and originally developed on FreeBSD. bhyve runs FreeBSD 9+,
 OpenBSD, NetBSD, Linux, and Windows guests. Current development efforts
 aim at widening support for other operating systems for the x86-64
 architecture. The [FreeBSD Handbook
@@ -465,13 +426,13 @@ VirtualBox.
 
 ### VirtualBox
 
-VirtualBox is a popular virtualization software available in |Trident|.
+VirtualBox is a popular virtualization software available in Project Trident.
 Installing VirtualBox through the |sysadm| AppCafe \<appcafe\> or typing
 pkg install virtualbox-ose on the command line will install all required
-dependencies. If installing |Trident| inside a virtual machine, referred
+dependencies. If installing Project Trident inside a virtual machine, referred
 to as a "guest", installing the *virtualbox-ose-additions* package (also
 known as VirtualBox Guest Additions) will greatly improve the
-performance of |Trident| or any other guest operating system. The guest
+performance of Project Trident or any other guest operating system. The guest
 additions add mouse pointer integration, shared folders between the host
 and guest (depending on the guest OS), improved video support, and a
 shared clipboard.
@@ -479,8 +440,8 @@ shared clipboard.
 > > **note**
 > >
 > > VirtualBox does not currently support the shared folders
-> > :   feature with a |Trident| guest. To share files between the host
-> >     and a |Trident| guest, use an NFS share.
+> > :   feature with a Project Trident guest. To share files between the host
+> >     and a Project Trident guest, use an NFS share.
 > >
 Please see the [VirtualBox website](https://www.virtualbox.org/) for
 additional information. The [VirtualBox Guest
@@ -489,15 +450,15 @@ information about what is supported and how to use these additions.
 
 > **note**
 >
-> The first time running VirtualBox on a |Trident| system, a background
+> The first time running VirtualBox on a Project Trident system, a background
 > script automatically gives the user account that started VirtualBox
 > the permissions required to run the application. This might break
 > existing shortcuts to VirtualBox. To fix the shortcut, log out and in
 > again.
 
-### Creating a Virtual Machine for a |Trident| install
+### Creating a Virtual Machine for a Project Trident install
 
-How to prepare VirtualBox for an installation of |Trident| using an .iso
+How to prepare VirtualBox for an installation of Project Trident using an .iso
 file.
 
 > **note**
@@ -505,11 +466,11 @@ file.
 > To downlaod an .iso file\`, select :guilabel:'Trident Desktop
 > :   Image (DVD Image)'.
 >
-Once a |Trident| ISO is [downloaded](https://www.Trident.org/downloads/)
+Once a Project Trident ISO is [downloaded](https://www.Trident.org/downloads/)
 and VirtualBox installed on the host system, create a new virtual
-machine to install |Trident| as a guest OS. The virtual machine must meet
+machine to install Project Trident as a guest OS. The virtual machine must meet
 several minimum requirements in order to be useable. This section will
-demonstrate how to configure the virtual machine for a |Trident| guest.
+demonstrate how to configure the virtual machine for a Project Trident guest.
 
 -   A minimum of 2 GB of memory.
 -   A virtual disk of 10-15 GB for a server installation or 50 GB for a
@@ -574,9 +535,9 @@ Figure %s \<vbox7\> displays.
 ![Virtual Disk - File Name and Size](images/vbox7a.png)
 
 This screen is used to set the size (or upper limit) of the virtual
-machine. If planning to install |Trident| as the guest OS on the virtual
+machine. If planning to install Project Trident as the guest OS on the virtual
 machine, **increase the size to at least 20 GB** or an error will
-display during the |Trident| installation. If planning to install KDE,
+display during the Project Trident installation. If planning to install KDE,
 GNOME, multiple desktop managers, or applications within the virtual
 machine, choose at least **50 GB**. Whatever size is set, be sure the
 computer has enough free disk space to accommodate the size chosen. Use
@@ -606,7 +567,7 @@ Figure %s \<vbox10\>.
 ![Virtual Machine Storage Settings](images/vbox10a.png)
 
 Click the word Empty, which represents the DVD reader. To access the
-|Trident| installer from the DVD reader, double-check the Slot is
+Project Trident installer from the DVD reader, double-check the Slot is
 pointing to the correct location (e.g. IDE Secondary Master) and use the
 drop-down menu to change the location if incorrect.
 
@@ -615,7 +576,7 @@ then Choose a virtual CD/DVD disk file to open a browser menu to
 navigate to the location of the ISO. Highlight the desired ISO and click
 Open. The name of the ISO will now appear in the Storage Tree section.
 
-|Trident| is now ready to be installed into the virtual machine as a
+Project Trident is now ready to be installed into the virtual machine as a
 guest OS. Highlight the virtual machine and click on the green Start
 icon. A new window opens, indicating the virtual machine is starting. If
 a DVD is inserted, it should audibly spin and the machine will start to
@@ -634,11 +595,11 @@ through the installation as described in the Install section.
 Supported Hardware
 ------------------
 
-While the |Trident| installer is very easy to use, installing a brand new
+While the Project Trident installer is very easy to use, installing a brand new
 operating system can sometimes be a daunting task.
 
 Before beginning, there are a few things to check to ensure the system
-is ready to install |Trident|.
+is ready to install Project Trident.
 
 -   **Dual-booting or installing over the entire drive?** If
     dual-booting, please ensure a primary partition is available. Refer
@@ -650,7 +611,7 @@ is ready to install |Trident|.
     operating system. Accidents happen, and losing important data can be
     avoided.
 
-To determine if the chosen hardware is detected by |Trident|, start a new
+To determine if the chosen hardware is detected by Project Trident, start a new
 installation and click the Hardware Compatibility icon in the lower left
 corner of the Language screen.
 
@@ -660,19 +621,19 @@ Troubleshooting section of this handbook.
 Hardware Requirements and Supported Hardware
 --------------------------------------------
 
-This section discusses the |Trident| hardware requirements and some
+This section discusses the Project Trident hardware requirements and some
 supported hardware.
 
 ### Minimum Requirements
 
-|Trident| has moderate hardware requirements and typically uses less
-resources than its commercial counterparts. Before installing |Trident|,
+Project Trident has moderate hardware requirements and typically uses less
+resources than its commercial counterparts. Before installing Project Trident,
 make sure the hardware or virtual machine meets at least the minimum
-requirements. To get the most out of the |Trident| experience, use a
+requirements. To get the most out of the Project Trident experience, use a
 system exceeding the minimum or recommended system requirements.
 
 At a **bare minimum**, these requirements must be met in order to
-install |Trident|:
+install Project Trident:
 
 **Minimum Requirements**
 
@@ -695,7 +656,7 @@ space improves the computing experience:
 -   Sound card
 -   3D-accelerated video card
 
-|Trident| does not require 50 GB for its installation. The minimum
+Project Trident does not require 50 GB for its installation. The minimum
 recommendation is to provide sufficient room for the installation of
 applications and to store local ZFS snapshots and boot environments.
 These can be used to retrieve earlier versions of files, rollback the
@@ -709,7 +670,7 @@ required.
 
 ### Processor
 
-|Trident| installs on any system containing a 64-bit (also called
+Project Trident installs on any system containing a 64-bit (also called
 *amd64*) processor. Despite the name, a 64-bit processor does **not**
 need to be manufactured by AMD in order to be supported. Even 64-bit
 Intel CPUs are sometimes referred to as amd64. The [FreeBSD Hardware
@@ -719,13 +680,13 @@ lists the *amd64* processors known to be compatible.
 
 ### Graphics
 
-Like many open source operating systems, |Trident| uses
-[X.org](https://www.x.org/wiki/) drivers for graphics support. |Trident|
+Like many open source operating systems, Project Trident uses
+[X.org](https://www.x.org/wiki/) drivers for graphics support. Project Trident
 automatically detects the optimal video settings for supported video
 drivers. Verify the graphics hardware is supported by clicking the
 Hardware Compatibility icon within the installer.
 
-Here are the major graphic vendors supported in |Trident|:
+Here are the major graphic vendors supported in Project Trident:
 
 **NVIDIA:** 3D acceleration on NVIDIA is provided by native FreeBSD
 drivers. If an NVIDIA video card is detected, an nVidia settings icon
@@ -739,18 +700,18 @@ supported.
 
 **Optimus:** Currently, there is no switching support between the two
 graphics adapters provided by Optimus. Optimus implementations vary, so
-|Trident| may or may not be able to successfully load a graphics driver
+Project Trident may or may not be able to successfully load a graphics driver
 to support this hardware. If a blank screen shows after installation,
 check the BIOS to see if there is an option to disable one of the
 graphics adapters or to set *discrete* mode. If the BIOS does not
-provide a *discrete* mode, |Trident| defaults to the 3D Intel driver and
+provide a *discrete* mode, Project Trident defaults to the 3D Intel driver and
 disables NVIDIA. This will change in the future when the NVIDIA driver
 supports Optimus.
 
 ### Wireless
 
-|Trident| has built-in support for most wireless networking cards.
-|Trident| automatically detects available wireless networks for supported
+Project Trident has built-in support for most wireless networking cards.
+Project Trident automatically detects available wireless networks for supported
 wireless devices. Verify the device is supported by clicking the
 Hardware Compatibility icon within the installer. If it is an external
 wireless device, insert it before running the installer.
@@ -769,7 +730,7 @@ the issue.
 >
 ### Laptops
 
-Many |Trident| users successfully run |Trident| on their laptops. However,
+Many Project Trident users successfully run Project Trident on their laptops. However,
 some issues may occur, depending upon the model of laptop. Some typical
 laptop issues:
 
@@ -799,7 +760,7 @@ laptop issues:
 To test the laptop's hardware, use the Hardware Compatibility icon in
 the Language screen before continuing with the installation.
 
-To install |Trident| onto an Asus Eee PC, review the [FreeBSD Eee
+To install Project Trident onto an Asus Eee PC, review the [FreeBSD Eee
 page](https://wiki.FreeBSD.org/AsusEee) first.
 
 The FreeBSD [Tuning Power Consumption
