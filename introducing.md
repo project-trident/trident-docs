@@ -101,44 +101,26 @@ The security features built into Project Trident include:
 -   **SSH root logins are disabled:** If SSH is enabled, login as a regular user and use `su` or `sudo` for administrative actions.
     Do not change this setting, as it prevents an unwanted user from having complete access to the system.
 
--   **sudo is installed:** sudo is configured to allow users in the
-    *wheel* group permission to run an administrative command after
-    typing the user password, not the *root* password. By default, the
-    first user created during installation is added to the *wheel*
-    group. Use the |sysadm| User Manager \<user-manager\> to add other
-    users to the wheel group to allow that user administrative access.
-    To change the default sudo configuration, always use the visudo as
-    root. This command verifies there are no syntax errors, which could
-    inadvertently prevent root access.
--   AES instruction set \<AES\_instruction\_set\> (AESNI) support is
-    loaded by default for the Intel Core i5/i7 processors that support
-    this encryption set. This support speeds up AES encryption and
-    decryption.
--   **Automatic notification of security advisories:** The |sysadm|
-    Update Manager \<update-manager\> automatically checks for any
-    updates that are available as the result of a [security
-    advisory](https://www.freebsd.org/security/advisories.html)
-    affecting Project Trident. This allows the administrator to keep the
-    operating system fully patched against vulnerabilities with just the
-    click of a mouse.
--   The Project Trident operating system and its available software packages
-    are built with [LibreSSL](http://www.libressl.org/), which has fewer
-    vulnerabilities than OpenSSL.
--   PersonaCrypt \<personacrypt\> allows a user to use a removable,
-    encrypted device for the user's home directory.
--   Tor Mode can be used to anonymously access Internet sites as it
-    automatically forwards all Internet traffic through the [Tor
-    Project's](https://www.torproject.org/) transparent proxy service.
+-   **sudo is installed:** `sudo` allows users in the *wheel* group permission to run an administrative command after typing the user password, not the *root* password.
+    The first user created during installation is added to the *wheel* group.
+    Use the User Configuration in Desktop Settings to add other users to the *wheel* group.
+    To change the default `sudo` configuration, use `visudo` as *root*.
+    This command verifies there are no syntax errors, which could inadvertently prevent root access.
+    
+-   [AES instruction set](https://en.wikipedia.org/wiki/AES_instruction_set) (AESNI) support is loaded by default for the Intel Core i5/i7 processors that support this encryption set.
+    This support speeds up AES encryption and decryption.
+    
+-   **Automatic notification of security advisories:** The System Update Manager utility automatically checks for any updates available from a [security advisory](https://www.freebsd.org/security/advisories.html) that affects Project Trident.
+The administrator can keep the operating system fully patched against vulnerabilities with a mouse click.
 
-To learn more about security on FreeBSD and Project Trident systems,
-man security is a good place to start. These resources provide more
-information about security on FreeBSD based operating systems:
+-   Tor Mode can be used to anonymously access Internet sites as it automatically forwards all Internet traffic through the [Tor Project's](https://www.torproject.org/) transparent proxy service.
+
+To learn more about security on TrueOS and Project Trident systems, `man security` is a good place to start.
+These resources provide more information about security on FreeBSD-based operating systems:
 
 -   [FreeBSD Security Information](https://www.freebsd.org/security/)
--   [Security Section in the FreeBSD
-    Handbook](https://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/security.html)
--   [Hardening
-    FreeBSD](http://www.bsdguides.org/2005/hardening-freebsd/)
+-   [Security Section in the FreeBSD Handbook](https://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/security.html)
+-   [Hardening FreeBSD](http://www.bsdguides.org/2005/hardening-freebsd/)
 
 ### ZFS Overview
 
