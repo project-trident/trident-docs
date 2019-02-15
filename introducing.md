@@ -354,121 +354,78 @@ Project Trident users can use the App Cafe to download programs that fill many
 of the same functions. Project Tridentis intentionally a light weight install.
 This allows for easy user customization.
 
-Virtualization
---------------
+### Virtualization
 
-A virtualized environment allows a user to test drive an operating
-system without overwriting the current operating system. This is an
-excellent way to practice installation, determine whether the hardware
-is supported, or to try multiple versions of different operating
-systems. Virtualization software creates a virtual machine, which is
-essentially a computer environment created entirely in software that
-allows the installation and use of an operating system. The only
-limitation to virtualization is the hardware, as each virtual machine
-uses real resources, the CPU and RAM. Depending on the amount of CPU and
-RAM available on the host computer, the operating system installed as a
-guest in the virtual environment may run slowly. If the host computer
-slows down, closing other non-essential applications to free up CPU/RAM
-may help.
+A virtualized environment allows users to test drive an operating system without overwriting the current operating system.
+This is an excellent way to test drive an operating system, determine hardware support, or try multiple operating system versions.
+Virtualization software creates a Virtual Machine (VM), a software-created computer environment that can install and run an operating system.
+The only limitation to virtualization is the system hardware.
+The virtual environment operating system can run slowly if the host computer has limited amounts CPU and RAM.
+Closing other non-essential applications on the host computer can free more CPU and RAM for the virtual machine.
 
-### bhyve
+#### bhyve
 
-bhyve (pronounced bee hive) is a type-2 hypervisor that runs natively on
-Project Trident and originally developed on FreeBSD. bhyve runs FreeBSD 9+,
-OpenBSD, NetBSD, Linux, and Windows guests. Current development efforts
-aim at widening support for other operating systems for the x86-64
-architecture. The [FreeBSD Handbook
-Virtualization](https://www.freebsd.org/doc/handbook/virtualization-host-bhyve.html)
-section has in-depth instructions about bhyve features and use. bhyve,
-while very powerful, is still under active development and may not have
-a complete user experience yet.
+bhyve (pronounced bee hive) is a type-2 hypervisor that runs natively on Project Trident.
+bhyve can run FreeBSD 9+, OpenBSD, NetBSD, Linux, and Windows guests.
+Current development efforts aim at widening support for other operating systems for the x86-64 architecture.
+The [FreeBSD Handbook Virtualization](https://www.freebsd.org/doc/handbook/virtualization-host-bhyve.html) section has in-depth instructions about bhyve features and use.
+bhyve is still under active development and may not have a complete user experience yet.
 
-For a more user-friendly virtualization experience, many users prefer
-VirtualBox.
+Many users prefer VirtualBox for a more user-friendly virtualization experience/
 
-### VirtualBox
+#### VirtualBox
 
-VirtualBox is a popular virtualization software available in Project Trident.
-Installing VirtualBox through the |sysadm| AppCafe \<appcafe\> or typing
-pkg install virtualbox-ose on the command line will install all required
-dependencies. If installing Project Trident inside a virtual machine, referred
-to as a "guest", installing the *virtualbox-ose-additions* package (also
-known as VirtualBox Guest Additions) will greatly improve the
-performance of Project Trident or any other guest operating system. The guest
-additions add mouse pointer integration, shared folders between the host
-and guest (depending on the guest OS), improved video support, and a
-shared clipboard.
+VirtualBox is a popular virtualization software available for Project Trident.
+Installing VirtualBox through the AppCafe or typing `sudo pkg install virtualbox-ose` on the command line installs all required dependencies.
+Installing the *virtualbox-ose-additions* package (also known as VirtualBox Guest Additions) can greatly improve the performance of Project Trident or other guest operating systems.
+The guest additions add mouse pointer integration, shared folders between the host and guest (depending on the guest OS), improved video support, and a shared clipboard.
 
-> > **note**
-> >
-> > VirtualBox does not currently support the shared folders
-> > :   feature with a Project Trident guest. To share files between the host
-> >     and a Project Trident guest, use an NFS share.
-> >
-Please see the [VirtualBox website](https://www.virtualbox.org/) for
-additional information. The [VirtualBox Guest
-Additions](http://www.virtualbox.org/manual/ch04.html) page has
-information about what is supported and how to use these additions.
+VirtualBox does not currently support the shared folders feature with a Project Trident guest.
+To share files between the host and a Project Trident guest, use an NFS share.
 
-> **note**
->
-> The first time running VirtualBox on a Project Trident system, a background
-> script automatically gives the user account that started VirtualBox
-> the permissions required to run the application. This might break
-> existing shortcuts to VirtualBox. To fix the shortcut, log out and in
-> again.
+Please see the [VirtualBox website](https://www.virtualbox.org/) for additional information.
+The [VirtualBox Guest Additions](http://www.virtualbox.org/manual/ch04.html) page has support information and usage instructions.
 
-### Creating a Virtual Machine for a Project Trident install
+Running VirtualBox on a Project Trident system for the first time automatically gives the user account that started VirtualBox the necessary permissions to run the application.
+This could break existing shortcuts to VirtualBox.
+To fix a broken shortcut, log out and in again.
 
-How to prepare VirtualBox for an installation of Project Trident using an .iso
-file.
+#### Creating a Virtual Machine for a Project Trident Install
 
-> **note**
->
-> To downlaod an .iso file\`, select :guilabel:'Trident Desktop
-> :   Image (DVD Image)'.
->
-Once a Project Trident ISO is [downloaded](https://www.Trident.org/downloads/)
-and VirtualBox installed on the host system, create a new virtual
-machine to install Project Trident as a guest OS. The virtual machine must meet
-several minimum requirements in order to be useable. This section will
-demonstrate how to configure the virtual machine for a Project Trident guest.
+This section describes how to prepare VirtualBox for an installation of Project Trident using an *.iso* file.
 
--   A minimum of 2 GB of memory.
--   A virtual disk of 10-15 GB for a server installation or 50 GB for a
-    desktop installation should be a useable starting point. The actual
-    size of a virtual disk depends on the virtual machine's intended
-    use, and what applications need to be installed for example but
-    these sizes should suit the average user's needs.
--   A bridged adapter.
+Install VirtualBox on the host system, download a Project Trident ISO from [the website](https://www.Trident.org/downloads/),  and create a new virtual machine to install Project Trident as a guest OS.
+Configure the virtual machine (VM) for a Project Trident guest:
 
-To create the virtual machine, start VirtualBox to see the screen shown
-in Figure %s \<vbox1\>.
+- Assign memory to the VM: 4 GB is recommended, but the system can run slowly with 2 GB.
+- Create a 30-50 GB virtual disk for the guest operating system and any downloaded software.
+  Adjust the virtual disk size as necessary to match the intended use for the operating system, but the virtual disk should not be less than 15 GB.
+- Open the settings for the VM after it is created and set the network adapter to be *bridged*.
+  This will allow the guest operating system to connect to the Internet through the host system.
+
+Start VirtualBox to begin creating the VM.
 
 ![VirtualBox Menu](images/vbox1a.png)
 
-Click New to start the new virtual machine wizard and display the screen
-in Figure %s \<vbox2\>.
+Click *New* to start the new virtual machine wizard.
 
 ![Create Virtual Machine - Name, Type, and Version](images/vbox2a.png)
 
-Enter a name for the virtual machine; anything can be entered but
-something descriptive is recommended. Click the Operating System
-drop-down menu and select BSD. In the Version drop-down menu, select
-FreeBSD (64 bit). Click Next to see the screen in Figure %s \<vbox3\>.
+Enter a descriptive name for the virtual machine.
+Click the "Operating System" drop-down menu and select *BSD*.
+In the "Version" drop-down menu, select *FreeBSD (64 bit)*.
+Click *Next*.
 
 ![Virtual Machine Reserved Memory](images/vbox3a.png)
 
-The base memory size must be changed to **at least 1024 MB.** If the
-host system has a lot of RAM, use more. Any number within the green area
-is considered a safe value by VirtualBox, meaning it should not affect
-the performance of the host computer too much. When finished, click Next
-to see the screen in Figure %s \<vbox4\>.
+The base memory size must be changed to **at least 2048 MB.**
+If possible, assigning more RAM will improve the guest operating system performance.
+Any number within the green area is considered a safe value by VirtualBox and should not impact the host computer performance.
+When finished, click *Next*.
 
 ![Virtual Hard Drive - New or Existing](images/vbox4a.png)
 
-This section is used to create the virtual hard drive, or the amount of
-disk space available to the guest OS installed in the virtual machine.
+This section is for creating the virtual hard drive, or allocating host computer disk space to the guest operating system.
 If this is the first virtual machine, the default offered by the
 Create a virtual hard drive now utility should be fine, then click
 Create to go to the screen shown in Figure %s \<vbox5\>. If there are
