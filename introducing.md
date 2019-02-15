@@ -124,41 +124,21 @@ These resources provide more information about security on FreeBSD-based operati
 
 ### ZFS Overview
 
-ZFS is an enterprise grade file-system, which provides many features.
-These include: support for high storage capacities, high reliability,
-the ability to quickly take snapshots, boot environments, continuous
-integrity checking and automatic repair, RAIDZ which was designed to
-overcome the limitations of hardware RAID, and native NFSv4 ACLs.
+ZFS is an enterprise grade file-system with many features.
+Support for high storage capacities, high reliability, the ability to quickly take snapshots, boot environments, continuous integrity checking and automatic repair, RAIDZ designed to overcome hardware RAID limitations, and native NFSv4 ACLs are all ZFS features seen in Project Trident.
 
-If new to ZFS, the Wikipedia entry on ZFS provides an excellent starting
-point to learn about its features. Additionally, [FreeBSD Mastery:
-ZFS](https://www.michaelwlucas.com/os/fmzfs) by Michael W Lucas and
-Allan Jude is a helpful ZFS resource as it is implemented in FreeBSD.
+The Wikipedia entry on ZFS provides an excellent starting point to learn about its features.
+[FreeBSD Mastery: ZFS](https://www.michaelwlucas.com/os/fmzfs) by Michael W Lucas and Allan Jude is also a helpful ZFS and FreeBSD resource.
 
-These resources are also useful to bookmark and peruse as needed:
+These resources are also useful:
 
--   [ZFS Evil Tuning
-    Guide](https://www.solaris-cookbook.eu/solaris/solaris-10-zfs-evil-tuning-guide/)
+-   [ZFS Evil Tuning Guide](https://www.solaris-cookbook.eu/solaris/solaris-10-zfs-evil-tuning-guide/)
 -   [FreeBSD ZFS Tuning Guide](https://wiki.FreeBSD.org/ZFSTuningGuide)
--   [ZFS Best Practices
-    Guide](https://documents.irf.se/get_document.php?group=Computer&docid=311)
--   [ZFS Administration
-    Guide](https://docs.oracle.com/cd/E19253-01/819-5461/index.html)
--   [Becoming a ZFS Ninja
-    (video)](https://blogs.oracle.com/video/becoming-a-zfs-ninja)
--   [Blog post explaining how ZFS simplifies the storage
-    stack](https://blogs.oracle.com/bonwick/rampant-layering-violation)
+-   [ZFS Best Practices Guide](https://documents.irf.se/get_document.php?group=Computer&docid=311)
+-   [ZFS Administration Guide](https://docs.oracle.com/cd/E19253-01/819-5461/index.html)
+-   [Becoming a ZFS Ninja (video)](https://blogs.oracle.com/video/becoming-a-zfs-ninja)
+-   [Blog post explaining ZFS storage stack simplification](https://blogs.oracle.com/bonwick/rampant-layering-violation)
 
-Table %s \<zfsterms\> is a brief glossary of terms used by ZFS:
-
-> **note**
->
-> The Insight file manager has the ability to mount snapshots
-> :   and work with individual files in that snapshot. Individual files
->     within a snapshot cannot be permanently deleted due to the
->     built-in redundancy of ZFS. To wipe a file completely from disk,
->     the entirety of every snapshot containing the file must be pruned.
->
 Project Trident Comparisons
 --------------------
 
