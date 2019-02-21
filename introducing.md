@@ -412,74 +412,61 @@ Click *New* to start the new virtual machine wizard.
 ![Create Virtual Machine - Name, Type, and Version](images/vbox2a.png)
 
 Enter a descriptive name for the virtual machine.
-Click the "Operating System" drop-down menu and select *BSD*.
-In the "Version" drop-down menu, select *FreeBSD (64 bit)*.
+Open the **Operating System** drop-down menu and select *BSD*.
+In the **Version** drop-down menu, select *FreeBSD (64 bit)*.
 Click *Next*.
 
 ![Virtual Machine Reserved Memory](images/vbox3a.png)
 
 The base memory size must be changed to **at least 2048 MB.**
-If possible, assigning more RAM will improve the guest operating system performance.
-Any number within the green area is considered a safe value by VirtualBox and should not impact the host computer performance.
+Assigning more RAM improves the guest operating system performance.
+Any number within the green area is considered a "safe" value by VirtualBox and should not impact the host computer performance.
 When finished, click *Next*.
 
 ![Virtual Hard Drive - New or Existing](images/vbox4a.png)
 
-This section is for creating the virtual hard drive, or allocating host computer disk space to the guest operating system.
-If this is the first virtual machine, the default offered by the
-Create a virtual hard drive now utility should be fine, then click
-Create to go to the screen shown in Figure %s \<vbox5\>. If there are
-existing virtual machines already on the host system, reusing an
-existing virtual disk by selecting
-Use an existing virtual hard drive file from the drop-down menu. Create
-as many virtual machines as desired. If the host system is getting low
-on disk space, consider reusing existing virtual hard drives to prevent
-wasting space on the physical hard drive by old unsed virtual machines.
+This section is for allocating host computer disk space to the guest operating system or creating a virtual hard drive.
+Using the default choices is generally recommended.
+Click *Create* to configure the virtual hard disk.
+An existing virtual disk can be reused by selecting *Use an existing virtual hard drive file* from the drop-down menu.
+Create as many virtual drives as desired.
+Consider reusing existing virtual hard drives to save space on the physical hard drive.
 
 ![Hard Drive Type](images/vbox5a.png)
 
-Select VDI and click Next to see the screen in Figure %s \<vbox6\>.
+Select *VDI* and click *Next*.
 
 ![Storage Type](images/vbox6a.png)
 
-Next, choose whether to have Dynamically allocated or Fixed size
-storage. Dynamically allocated uses disk space as needed until it
-reaches the maximum size set in the next screen. The Fixed size option
-creates a virtual disk the same size as that specified amount of disk
-space, whether it is used or not. Choose the first option if disk space
-is a concern; otherwise choose the second option as it allows VirtualBox
-to run slightly faster. Once Next is selected, the screen in
-Figure %s \<vbox7\> displays.
+Choose whether to have *Dynamically allocated* or *Fixed size* storage.
+*Dynamically allocated* uses disk space as needed until it reaches a specified maximum size.
+The *Fixed size* option reserved physical space from the physical hard disk, regardless if the virtual machine uses the space.
+Choose *Dynamically allocated* when physical disk space is a concern.
+Choose *Fixed size* when space is not a concern, as it allows the virtual machine to run slightly faster.
+Click *Next*.
 
 ![Virtual Disk - File Name and Size](images/vbox7a.png)
 
-This screen is used to set the size (or upper limit) of the virtual
-machine. If planning to install Project Trident as the guest OS on the virtual
-machine, **increase the size to at least 20 GB** or an error will
-display during the Project Trident installation. If planning to install KDE,
-GNOME, multiple desktop managers, or applications within the virtual
-machine, choose at least **50 GB**. Whatever size is set, be sure the
-computer has enough free disk space to accommodate the size chosen. Use
-the folder icon to browse to a directory on disk with sufficient space
-to hold the virtual machine.
+Set the virtual disk size or upper limit.
+When installing Project Trident as the virtual machine guest OS, set the size to at least **20 GB**.
+Set the size to a minimum **50 GB** when planning to use the virtual machine more extensively.
+Whatever size is set, be sure the computer has enough free disk space to accommodate the virtual disk size.
+Use the folder icon to choose a directory with sufficient space to hold the virtual disk.
 
-Once the selections are made, click Create to finish using the wizard.
-The virtual machine will now show up in the left box, as seen in the
-example in Figure %s \<vbox8\>.
+Click *Create* to finish the process and return to the main screen.
 
-![New Virtual Machine "test"](images/vbox8a.png)
+![New Virtual Machine "Trident-VM"](images/vbox8a.png)
 
-In order to use the network card, configure bridged network on the
-virtual machine. To do this, go to Settings --\> Network. In the
-Attached to drop-down menu select Bridged Adapter, then select the name
-of the physical network interface from the Name drop-down menu. In the
-example shown in Figure %s \<vbox9\>, the Intel Pro/1000 Ethernet card
-is attached to the network and has a device name of re0.
+Configure a bridged network to enable internet access for the virtual machine.
+Right-click the virtual machine and go to Settings --\> Network.
+Open the **Attached to** drop-down menu and select *Bridged Adapter*.
+Select the name of the physical network interface from the **Name** drop-down menu.
+In the example image, the *Intel Pro/1000 Ethernet card* is attached to the network and is named *re0*.
 
-![VirtualBox Bridged Adapter Configuration](images/vbox9a.png)
+![VirtualBox Bridged Adapter Example Configuration](images/vbox9a.png)
 
-Before starting the virtual machine, configure it to use the ISO
-installation media downloaded previously. Click the Storage hyperlink in
+Before starting the virtual machine, configure it to use the ISO installation media previously downloaded.
+Click *Storage* hyperlink in
 the right frame to access the Storage screen seen in
 Figure %s \<vbox10\>.
 
