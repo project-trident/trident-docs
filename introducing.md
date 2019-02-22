@@ -405,25 +405,25 @@ Configure the virtual machine (VM) for a Project Trident guest:
 
 Start VirtualBox to begin creating the VM.
 
-![VirtualBox Menu](images/vbox1a.png)
+![VirtualBox Menu](images/virtualbox-welcome.png)
 
 Click *New* to start the new virtual machine wizard.
 
-![Create Virtual Machine - Name, Type, and Version](images/vbox2a.png)
+![Create Virtual Machine - Name, Type, and Version](images/virtualbox-name-os.png)
 
 Enter a descriptive name for the virtual machine.
 Open the **Operating System** drop-down menu and select *BSD*.
 In the **Version** drop-down menu, select *FreeBSD (64 bit)*.
 Click *Next*.
 
-![Virtual Machine Reserved Memory](images/vbox3a.png)
+![Virtual Machine Reserved Memory](images/vitualbox-memory-size.png)
 
 The base memory size must be changed to **at least 2048 MB.**
 Assigning more RAM improves the guest operating system performance.
 Any number within the green area is considered a "safe" value by VirtualBox and should not impact the host computer performance.
 When finished, click *Next*.
 
-![Virtual Hard Drive - New or Existing](images/vbox4a.png)
+![Virtual Hard Drive - New or Existing](images/virtualbox-virtual-hard-disk-new-existing.png)
 
 This section is for allocating host computer disk space to the guest operating system or creating a virtual hard drive.
 Using the default choices is generally recommended.
@@ -432,11 +432,11 @@ An existing virtual disk can be reused by selecting *Use an existing virtual har
 Create as many virtual drives as desired.
 Consider reusing existing virtual hard drives to save space on the physical hard drive.
 
-![Hard Drive Type](images/vbox5a.png)
+![Hard Drive Type](images/virtualbox-virtual-hard-disk-type.png)
 
 Select *VDI* and click *Next*.
 
-![Storage Type](images/vbox6a.png)
+![Storage Type](images/virtualbox-virtual-hard-disk-storage.png)
 
 Choose whether to have *Dynamically allocated* or *Fixed size* storage.
 *Dynamically allocated* uses disk space as needed until it reaches a specified maximum size.
@@ -445,7 +445,7 @@ Choose *Dynamically allocated* when physical disk space is a concern.
 Choose *Fixed size* when space is not a concern, as it allows the virtual machine to run slightly faster.
 Click *Next*.
 
-![Virtual Disk - File Name and Size](images/vbox7a.png)
+![Virtual Disk - File Name and Size](images/virtualbox-virtual-hard-disk-location-size.png)
 
 Set the virtual disk size or upper limit.
 When installing Project Trident as the virtual machine guest OS, set the size to at least **20 GB**.
@@ -455,48 +455,35 @@ Use the folder icon to choose a directory with sufficient space to hold the virt
 
 Click *Create* to finish the process and return to the main screen.
 
-![New Virtual Machine "Trident-VM"](images/vbox8a.png)
+![New Virtual Machine "Project Trident VM"](images/virtualbox-dashboard-trident-vm.png)
 
 Configure a bridged network to enable internet access for the virtual machine.
 Right-click the virtual machine and go to Settings --\> Network.
 Open the **Attached to** drop-down menu and select *Bridged Adapter*.
-Select the name of the physical network interface from the **Name** drop-down menu.
-In the example image, the *Intel Pro/1000 Ethernet card* is attached to the network and is named *re0*.
+The interface **Name** is automatically detected or can be chosen from the drop-down menu.
 
-![VirtualBox Bridged Adapter Example Configuration](images/vbox9a.png)
+![VirtualBox Bridged Adapter Example Configuration](images/virtualbox-bridged-adapter.png)
 
-Before starting the virtual machine, configure it to use the ISO installation media previously downloaded.
-Click *Storage* hyperlink in
-the right frame to access the Storage screen seen in
-Figure %s \<vbox10\>.
+Now configure the VM to use the ISO installation media previously downloaded.
+Click the **Storage** tab in the VM **Settings** menu.
+Look for the *Empty* optical drive entry in the **Storage Devices** menu and highlight it.
+In the **Attributes** panel, confirm the **Optical Drive** drop-down menu is set to *IDE Secondary Master*, click the **Disk** icon and select *Choose Virtual Optical Disk File...*.
 
-![Virtual Machine Storage Settings](images/vbox10a.png)
+![Virtual Machine Add ISO](images/virtualbox-add-iso.png)
 
-Click the word Empty, which represents the DVD reader. To access the
-Project Trident installer from the DVD reader, double-check the Slot is
-pointing to the correct location (e.g. IDE Secondary Master) and use the
-drop-down menu to change the location if incorrect.
+Browse to the ISO location and select it.
+The ISO name is added to the **Storage Devices** window.
+Click **OK** to return to the VirtualBox dashboard.
 
-If using an ISO stored on the hard disk is preferred, click the DVD icon
-then Choose a virtual CD/DVD disk file to open a browser menu to
-navigate to the location of the ISO. Highlight the desired ISO and click
-Open. The name of the ISO will now appear in the Storage Tree section.
+Project Trident is now ready to be installed into the virtual machine as a guest OS.
+Highlight the virtual machine and click **Start**.
+A new window opens and shows the startup process.
+Wait for the VM to boot from the ISO and continue to install Project Trident.
 
-Project Trident is now ready to be installed into the virtual machine as a
-guest OS. Highlight the virtual machine and click on the green Start
-icon. A new window opens, indicating the virtual machine is starting. If
-a DVD is inserted, it should audibly spin and the machine will start to
-boot into the installation program. If it does not or if using an ISO
-stored on the hard disk, press F12 to select the boot device when the
-message to do so appears, then press c to boot from CD-ROM. Proceed
-through the installation as described in the Install section.
-
-> **note**
+> **Note:**
 >
-> If the installer GUI doesn't appear to load after configuring the
-> virtual machine, **EFI** may need to be enabled in Virtualbox by
-> navigating Settings --\> System --\> Motherboard and checking
-> Enable EFI (special OSes only).
+> If the installer GUI doesn't appear to load after configuring the virtual machine, try enabling **EFI**.
+> Go to Settings --\> System --\> Motherboard and set **Enable EFI (special OSes only)**
 
 Supported Hardware
 ------------------
