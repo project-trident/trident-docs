@@ -85,13 +85,13 @@ Test each of your `zfsnap snapshot` commands using the use the `-n` (dry-run) an
 A couple details about 5.2 above:
 
 * crontab fields support whole numbers only, e.g. `0 2 * * *` will work, `0 2.2 * * *` will not work
-* /*n*, where *n* is a whole number, e.g. `0/5`, does not work (the way you might think) for the minutes field. Without going into details, just avoid it
+* /*n*, where *n* is a whole number, e.g. `0/5`, does not work (the way you might think) for the Minutes field. Without going into details, just avoid it
 * The `@`*n*`s` syntax, where *n* is a whole number, e.g. `@1000s`, is much easier to understand than the individual fields. In addition, it ensures that each successive invocation happens *n* seconds *after the previous one has completed*, which means tasks in the same family (crontab entry) never collide (read: attempt to start a new instance before the previous instance has completed. This is generally not an issue for snapshot creation because it's instantaneous, but may be an issue for snapshot deletion). The main drawback is it's a more difficult to set jobs based on absolute calendar date and time
 
 An example of a crontab schedule is `0	14	*	*	*` (tab separated), which translates to:
 
-* Every time the system clock time value is 0 minutes, 14 hours (represented by `0	14`, evaluates to 14:00/2:00 PM) ...
-* Regardless of the day of the month, the month, or the day of the week (what * * * stand for, respectively)
+* Every time the system clock time value is 0 minutes, 14 hours (represented by `0 14`, evaluates to 14:00/2:00 PM) ...
+* Regardless of the day of the month, the month, or the day of the week (what `* * *` stand for, respectively)
 
 Or, put into one sentence: Every day at 14:00/2 PM.
 
@@ -99,12 +99,12 @@ Or, put into one sentence: Every day at 14:00/2 PM.
 
 For example, putting the examples in Steps 5 and 4 together - in that sequence - into a sample crontab entry gives:
 
-`0	14	*	*	*	/sbin/zfsnap snapshot -rv -a 6w zpool`
+`0 14 * * * /sbin/zfsnap snapshot -rv -a 6w zpool`
 
 Which translates to: 
 
 * Every time the system clock time value is 0 minutes, 14 hours (represented by `0	14`, evaluates to 14:00/2:00 PM) ...
-* Regardless of the day of the month, the month, or the day of the week (what * * * stand for, respectively) ...
+* Regardless of the day of the month, the month, or the day of the week (what `* * *` stand for, respectively) ...
 * Invoke zfsnap (represented by by the absolute path to the `zfsnap` command, `/sbin/zfsnap`) to ...
 * Create snapshots (represented by `snapshot`) ...
 * Individually, (also known as "recursively," represented by `-rv`) with ...
@@ -126,7 +126,7 @@ A snapshot's minimum retention time (TTL) and the cadence of `zfsnap destroy` ar
 
 As an example, consider a snapshot with a minium retention time of 2 hours, taken at midnight (00:00). A matching `zfsnap destroy` invocation at 1 hour after that snapshot was taken, at 01:00 on the same day, will leave that snapshot intact. However, a matching  `zfsnap destroy` invocation at 3 hours after that snapshot was taken, at 03:00 on the same day, will delete that snapshot. 
 
-Of note is the fact that the snapshot was retained for 3 hours despite its minimum retention time being 2 hours. That is why, to this point, this guide uses the term "minimum retention time" instead of "TTL": it better and more plainly describes the meaning of that parameter. "TTL" implies that whatever it refers to "dies" when the TTL value is reached, while "minimum retention time" conveys that whatever it refers to will live for *at least* the minimum retention time. Henceforth, the guide will now use the official term, TTL, to align with the documentation.
+Of note is the fact that the snapshot was retained for 3 hours despite its minimum retention time being 2 hours. That is why, to this point, this guide uses the term "minimum retention time" instead of "TTL": it better and more plainly describes the meaning of that parameter. "TTL" implies that whatever it refers to "dies" when the TTL value is reached, while "minimum retention time" conveys that whatever it refers to will live for *at least* the minimum retention time. Henceforth, the guide will use the official term, TTL, to align with the documentation.
 
 The steps, therefore, are:
 
@@ -163,7 +163,7 @@ The additional crontab entries should look like this:
 ```
 # Create a recursive snapshot of zpool daily at 2 PM with a TTL of 6 weeks
 
-0	14	*	*	*	/sbin/zfsnap snapshot -rv -a 6w zpool
+0 14 * * * /sbin/zfsnap snapshot -rv -a 6w zpool
 ```
 
 ```
