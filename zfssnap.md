@@ -75,7 +75,7 @@ An example `zfsnap snapshot` command based on the above is: `zfsnap snapshot -rv
 
 Or, put into one sentence: Create recursive snapshots of all filesystems on zpool named `zpool` with a minimum retention period of (read "that should be deleted after") 6 weeks. It may be easier to understand the syntax if you read the translation first before reading the command.
 
-Test each of your `zfsnap snapshot` commands using the use the `-n` (dry-run) and `-v` (verbose) flags to make sure the command does what you think it does, e.g. `zfsnap snapshot -n -v -rv -a 6w zpool`.
+Test each of your `zfsnap snapshot` commands in QTerminal using the use the `-n` (dry-run) and `-v` (verbose) flags to make sure the command does what you think it does, e.g. `zfsnap snapshot -n -v -rv -a 6w zpool`.
 
 **STEP 5: Determine the crontab schedule for your backups**
 
@@ -148,15 +148,15 @@ Which translates to:
 
 Or, put into a single sentence: Destroy all old snapshots in all filesystems on zpool 100000 seconds after the last such destruction completed.
 
-Test each of your `zfsnap destroy` commands using the use the `-n` (dry-run) and `-v` (verbose) flags to make sure the command does what you think it does, e.g. `zfsnap destroy -n -v -rv zpool`.
+Test each of your `zfsnap destroy` commands in QTerminal using the use the `-n` (dry-run) and `-v` (verbose) flags to make sure the command does what you think it does, e.g. `zfsnap destroy -n -v -rv zpool`.
 
 You can have as many deletions as you want, especially if you prefer to prune (delete members of) only certain snapshot families at a time. The full syntax for `zfsnap destroy`, which enables that, is [here](https://www.zfsnap.org/zfsnap_manpage.html#destroy). Both it and corresponding examples are omitted here for the sake of simplicity.
 
 **STEP 8: Put each combined (schedule + `zfsnap` command) command into `/etc/crontab`**
 
-* Open crontab in Lumina Text Editor via `sudo lte /etc/crontab`. Unlike on (some) Linux distros, crontab can be edited directly in a GUI application on Project Trident.
-* Put each combined `zfsnap snapshot` and `zfsnap destroy` command into the crontab file, with each line preceded by a comment describing what the line does. This is helpful for troubleshooting; in a crisis the last thing you want to be doing is trying to divine exactly what each line is doing. See below for what that should look like
-* Save the crontab file and exit Lumina Text Editor
+1. Open crontab in Lumina Text Editor via `sudo lte /etc/crontab`. Unlike on (some) Linux distros, crontab can be edited directly in a GUI application on Project Trident.
+2. Put each combined `zfsnap snapshot` and `zfsnap destroy` command into the crontab file, with each line preceded by a comment describing what the line does. This is helpful for troubleshooting; in a crisis the last thing you want to be doing is trying to divine exactly what each line is doing. See below for what that should look like
+3. Save the crontab file and exit Lumina Text Editor
 
 The additional crontab entries should look like this:
 
@@ -177,4 +177,7 @@ The additional crontab entries should look like this:
 1. Depending on the schedule you set, wait some time for enough snapshots to have been taken and deleted
 2. List all snapshots using [`zfs list -t snapshot`](https://docs.oracle.com/cd/E19253-01/819-5461/gbiqe/index.html). The output should match your crontab entries
 
-If you made a syntax error in crontab resulting in too many snapshots being taken, correct the problematic crontab entry first. This will stop the excessive snapshot creation. Then, run a `zfsnap destroy -rv zpool` (replace `zpool` with the name of the pool in question) on the affected pools. This will delete all the snapshots created so far and allow you to start from scratch.
+If you made a syntax error in crontab resulting in too many snapshots being taken:
+
+1. Correct the problematic crontab entry first as shown in Step 8. This will stop the excessive snapshot creation 
+2. In QTerminal, run a `zfsnap destroy -rv zpool` (replace `zpool` with the name of the pool in question) on the affected pools. This will delete all snapshots on the referenced pools created by `zfsnap`, so that your crontab entries can start creating snapshots afresh
