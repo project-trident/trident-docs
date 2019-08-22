@@ -14,7 +14,7 @@ Last updated: 2019-07-17
 
 *What this guide will NOT get you:*
 
-* Device (entire PC, including bootloader, etc.) backup. For that, try [Bacula](https://www.bacula.org/) or [Amanda](http://www.amanda.org/). No claim about those tools is made or implied by this statement
+* Device (entire PC, including bootloader, etc.) backup. For that, try [Bareos](https://www.bareos.org/en/), [Bacula](https://www.bacula.org/), or [Amanda](http://www.amanda.org/). No claim about those tools is made or implied by this statement
 * Block/physical storage device redundancy. If the physical storage device(s) your pool is on stops functioning, your original data and snapshots will be lost. To avoid this, use [`zfs send`](https://www.freebsd.org/cgi/man.cgi?zfs(8)) or some similar solution to send snapshots to another ZFS pool
 
 **STEP 0: Get the right mindset**
