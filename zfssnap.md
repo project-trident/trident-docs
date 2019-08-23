@@ -95,16 +95,17 @@ An example of a crontab schedule is `0	14	*	*	*` (tab separated), which translat
 
 Or, put into one sentence: Every day at 14:00/2 PM.
 
-**STEP 6: Match desired backups with their corresponding crontab schedules to create single, complete crontab entries for each backup**
+**STEP 6: Match desired backups with their corresponding crontab schedules to create single, complete crontab entries for each backup, with the user the `zfsnap` command should run as**
 
 For example, putting the examples in Steps 5 and 4 together - in that sequence - into a sample crontab entry gives:
 
-`0 14 * * * /sbin/zfsnap snapshot -rv -a 6w zpool`
+`0 14 * * * root /sbin/zfsnap snapshot -rv -a 6w zpool`
 
 Which translates to: 
 
 * Every time the system clock time value is 0 minutes, 14 hours (represented by `0	14`, evaluates to 14:00/2:00 PM) ...
 * Regardless of the day of the month, the month, or the day of the week (what `* * *` stand for, respectively) ...
+* As the user root (represented by `root`) ...
 * Invoke zfsnap (represented by by the absolute path to the `zfsnap` command, `/sbin/zfsnap`) to ...
 * Create snapshots (represented by `snapshot`) ...
 * Individually, (also known as "recursively," represented by `-rv`) with ...
@@ -112,7 +113,7 @@ Which translates to:
 * 6 weeks (represented by `6w`) of ...
 * All filesystems on the zpool named `zpool` (represented by `zpool`)
  
-Or, put into one sentence: Create a recursive snapshot of all filesystems on zpool named `zpool` every day at 14:00/2 PM with a minimum retention period of (read "that should be deleted after") 6 weeks.
+Or, put into one sentence: As root, create a recursive snapshot of all filesystems on zpool named `zpool` every day at 14:00/2 PM with a minimum retention period of (read "that should be deleted after") 6 weeks.
 
 You can have as many snapshot creation entries (snapshot families) in crontab as you want.
 
@@ -136,17 +137,18 @@ The steps, therefore, are:
 
 An example of a combined command for the above is:
 
-`@100000s /sbin/zfsnap destroy -rv zpool`
+`@100000s root /sbin/zfsnap destroy -rv zpool`
 
 Which translates to: 
 
 * 100000s after the completion of the previous invocation of the following command by `cron` (represented by `@100000s`) ...
+* As the user root (represented by `root`) ...
 * Invoke zfsnap (represented by by the absolute path to the `zfsnap` command, `/sbin/zfsnap`) to ...
 * Destroy (represented by `destroy`) ... 
 * Individual snapshots (also known as recursive snapshots, represented by `-rv`) whose age is greater than their TTL value on ...
 * All filesystems on the zpool named `zpool` (represented by `zpool`)
 
-Or, put into a single sentence: Destroy all old snapshots in all filesystems on zpool 100000 seconds after the last such destruction completed.
+Or, put into a single sentence: As root, destroy all old snapshots in all filesystems on zpool 100000 seconds after the last such destruction completed.
 
 Test each of your `zfsnap destroy` commands in QTerminal using the use the `-n` (dry-run) and `-v` (verbose) flags to make sure the command does what you think it does, e.g. `zfsnap destroy -n -v -rv zpool`.
 
@@ -163,13 +165,13 @@ The additional crontab entries should look like this:
 ```
 # Create a recursive snapshot of zpool daily at 2 PM with a TTL of 6 weeks
 
-0 14 * * * /sbin/zfsnap snapshot -rv -a 6w zpool
+0 14 * * * root /sbin/zfsnap snapshot -rv -a 6w zpool
 ```
 
 ```
 # Destroy all old snapshots on zpool 100000 seconds after last destruction completed
 
-@100000s /sbin/zfsnap destroy -rv zpool
+@100000s root /sbin/zfsnap destroy -rv zpool
 ```
 
 **(Later on) STEP 9: Verify that your snapshots are being created as you want**
@@ -180,4 +182,4 @@ The additional crontab entries should look like this:
 If you made a syntax error in crontab resulting in too many snapshots being taken:
 
 1. Correct the problematic crontab entry first as shown in Step 8. This will stop the excessive snapshot creation 
-2. In QTerminal, run a `zfsnap destroy -rv zpool` (replace `zpool` with the name of the pool in question) on the affected pools. This will delete all snapshots on the referenced pools created by `zfsnap`, so that your crontab entries can start creating snapshots afresh
+2. In QTerminal, run a `sudo zfsnap destroy -rv zpool` (replace `zpool` with the name of the pool in question) on the affected pools. This will delete all snapshots on the referenced pools created by `zfsnap`, so that your crontab entries can start creating snapshots afresh.
