@@ -1,40 +1,38 @@
 Author: [jdrch](https://github.com/jdrch)
 
-Last updated: 2019-09-08
+Last updated: 2019-09-09
 
 **How to set up regular recurring, incremental, online filesystem backups using `restic`**
 
 *What this guide will get you:*
 
-* The ability to create directory snapshots (including the root directory, /)
-* Automatic snapshot pruning (deletion when they reach a certain age, set by the user)
+* The ability to create directory snapshots, including the root directory `/`
+* Automatic snapshot pruning. Note that this guide treats backup deletion and pruning as a single prune operation, while `restic`'s documentation treats them separately
 * Snapshots that contain only changes since the previous snapshot
-* Block/physical storage device redundancy. Snapshots will be located on a different physical block device (HDD or SSD, for the purposes of this guide) from the source data
-* Snapshots that happen while the computer is on and the source directories are (part of a) mounted (filesystem)
-* ([When paired with ECC RAM](https://pthree.org/2013/12/10/zfs-administration-appendix-c-why-you-should-use-ecc-ram/)) Redundancy against data corruption 
+* Block/physical storage device redundancy. Snapshots will be located on a HDD or SSD from the source data
+* Online snapshots
+* Redundancy against data corruption [when paired with ECC RAM](https://pthree.org/2013/12/10/zfs-administration-appendix-c-why-you-should-use-ecc-ram/)  
 
 *What this guide will NOT get you:*
 
-* Instantaneous snapshots
-* Device (entire PC, including bootloader, etc.) backup. For that, try [Bareos](https://www.bareos.org/en/), [Bacula](https://www.bacula.org/), or [Amanda](http://www.amanda.org/). No claim about those tools is made or implied by this statement
+* Instantaneous snapshots. See [`zfsnap`](https://github.com/project-trident/trident-docs/blob/master/zfssnap.md) for that
+* Device-level backup. For that, try [Bareos](https://www.bareos.org/en/), [Bacula](https://www.bacula.org/), or [Amanda](http://www.amanda.org/). No claim about those tools is made or implied by this statement
 
 **STEP 0: Get the right mindset**
 
 Be prepared to NOT understand things at first, but also be patient. Eventually you'll get the hang of what you're doing. 
 
-Also, because snapshots are just backups, and `restic` operates on those exclusively, there is minimal risk to your data during setup. The mistake you're most likely to make is setting `restic` to run too often, which might slow down the machine until the problem is discovered and rectified.
+Snapshots are just backups and `restic` operates on those exclusively, so there is minimal risk to your data during setup. The mistake you're most likely to make is setting `restic` to run too often. This might cause performance problems if a `restic` job is still running while another one starts.
 
-Advanced users may find this guide a bit like spoonfeeding, but it's deliberately written in this manner to enable people unfamiliar basic programming concepts and who do better with GUIs than CLIs to understand how crontab and the commands it calls work. Too many Linux/Unix guides assume a lot of prior knowledge for which no easily accessible corresponding guide or documentation exists, leaving users struggling to understand what they need to do to get their desired effects.
-
-There are many links and citations to allow users to do as much (or as little) background reading as they want or need.
+This guide is written to enable people unfamiliar basic programming concepts and who do better with GUIs than CLIs to understand how the commands involved work. Too many Linux/Unix guides assume a lot of prior knowledge for which no easily accessible corresponding guide or documentation exists. This leaving users struggling to understand what they need to do to get their desired effects.
 
 **STEP 1: Read the `restic` documentation**
 
-Read the [`restic`](https://restic.readthedocs.io) documentation. As with most Linux/Unix documentation, this may be pretty dense reading, but it's the official, canonical description of the functionality this guide uses, so patiently go through it.
+Read the [`restic`](https://restic.readthedocs.io) documentation.
 
 **STEP 2: Read FreeBSD's crontab and ZFS documentation**
 
-While `restic` creates, names, and automatically prunes backups, it uses `cron` to invoke it automatically. As such, you'll have to be familiar with crontab syntax to create the zfsnap run schedule you want. crontab syntax varies based on OS implementation, and Project Trident (ultimately) [uses FreeBSD's implementation thereof](https://t.me/ProjectTrident/33871). 
+While `restic` creates and automatically prunes backups, this guide uses `cron` to invoke it at preset intervals. As such, you'll have to be familiar with crontab syntax to create the `restic` run schedule you want. crontab syntax varies based on OS implementation, and Project Trident (ultimately) [uses FreeBSD's implementation thereof](https://t.me/ProjectTrident/33871). 
 
 Read:
 
@@ -51,23 +49,25 @@ The [ZFS Administration Guide](https://pthree.org/2012/04/17/install-zfs-on-debi
 
 It is entirely OK, acceptable, and even preferable to take a long time going through the administration guide.
 
-**STEP 4: Ensure at least 2 extra block storage devices besides the block storage device are installed and running on the computer**
+**STEP 4: Ensure at least 2 extra HDDs or SSDs besides the source one are installed on the computer**
 
-In lay terms, ensure you have at least 2 extra HDDs or SSDs *besides* the one the source folder(s) is(are) currently installed. Ensure none of the extra drives contain data you need, as said data will be destroyed during zpool creation. Internal drives are preferable.
+Ensure none of the extra drives contain data you need, as said data will be destroyed during zpool creation. Internal drives are preferable.
 
 Given the wide range of possibilities for fulfulling this step, details are not provided.
 
-**STEP 5: Create a zpool from the extra block devices**
+**STEP 5: Create a zpool from the drives from Step 4**
 
-This is done using the `zpool create` command. Given the range of possibilities and the extensive [examples](https://pthree.org/2012/12/04/zfs-administration-part-i-vdevs/) provided by the ZFS Administration Guide, examples are not included here.
+This is done using the `zpool create` command. See these [examples](https://pthree.org/2012/12/04/zfs-administration-part-i-vdevs/).
 
-However, it is *strongly* recommended by this author that the `autoexpand` option is enabled for the pool during or after creation. To enable it after creation in QTerminal for a zpool named *tank* (following the example in the Administration Guide), run `zpool set autoexpand=on tank`.
+It is *strongly* recommended by this author that the `autoexpand` option is enabled for the pool during or after creation. To enable it after creation in QTerminal for a zpool named *tank* - following the example in the Administration Guide - run `zpool set autoexpand=on tank`.
 
 **STEP 6: Create a ZFS filesystem on the zpool created in Step 5**
 
-This is done using the `zfs create` command. Given the range of possibilities and the extensive [examples](https://pthree.org/2012/12/17/zfs-administration-part-x-creating-filesystems/) provided by the ZFS Administration Guide, examples are not included here.
+This is done using the `zfs create` command. See these [examples](https://pthree.org/2012/12/17/zfs-administration-part-x-creating-filesystems/).
 
-However, it is *strongly* recommended by this author that the `compression` and `dedup` (enable the latter *ONLY* if you have [sufficient RAM](https://pthree.org/2013/12/18/zfs-administration-appendix-d-the-true-cost-of-deduplication/)) options are enabled for the filesystem during or after creation. To enable them after creation in QTerminal for a ZFS filesystem located at `tank/backup`, run `zfs set compression=on,dedup=on tank/backup`. To enable `compression` only in QTerminal after creation for the same ZFS filesystemrun `zfs set compression=on tank/backup`.
+It is *strongly* recommended by this author that the `compression` option is enabled for the filesystem during or after creation. To do this in QTerminal after `zfs create` has completed, run `zfs set compression=on tank/ZFSFileSystemName`.
+
+Enable `dedup` for the filesystem if you have [sufficient RAM](https://pthree.org/2013/12/18/zfs-administration-appendix-d-the-true-cost-of-deduplication/). To do this in QTerminal after `zfs create` has completed, run `zfs set dedup=on tank/ZFSFileSystemName`.
 
 **STEP 7: Download and install `restic`**
 
@@ -81,30 +81,32 @@ However, it is *strongly* recommended by this author that the `compression` and 
 
 **STEP 8: Determine the directory structure of your backups**
 
-Each `restic` backup *command* specifies a source and a repository. The main things to know about repositories are:
+Each `restic` `backup` command specifies a source and a repository. The main things to know about repositories are:
 
-1. They are deduplicated *within* each repsository, and *not across* repositories. So, for example, let's say you have 2 folders with the same files backing up a single repository. That repository would have only 1 copy of each file. However, if those same 2 folders backup to separate repositories, then each repository has its own copy
-2. Each repository has its own access credentials
-3. Backup pruning operates per repository
-4. Multiple sources can backup to the same (or multiple) respositories and vice versa
-5. Sources and repositories are not linked. You can backup a source to any existing repository you have access to without changing any settings within `restic` itself
+1. You can have as many repositories as you want
+2. Each repository is deduplicated on its own. So, for example, consider 2 folders with the same files backed up to a single repository. That repository would have only 1 copy of each file. However, if those same 2 folders backup to separate repositories, then each repository has its own copy
+3. Each repository has its own access credentials
+4. Backup pruning operates per repository
+5. Multiple sources can backup to the same respository
+6. Multiple repositories can backup the same source
+7. Sources and repositories are not linked. You can backup a source to any existing repository you have access to by constructing and running a matching `restic` command
 
-For the sake of simplicity, this guide will assume the user is backing up a single source directory to a repository. However, the user should not take this as a suggestion; clearly, for maxmimum space efficiency, it's best for as many sources to backup to the same repository as possible. This, however, would mean that all said sources might share the same backup credentials, which may be undesirable for security and/or privacy. There are many options here, and the user would do well to carefully consider their needs and then devise a configuration that meets said needs.
+This guide will assume the user is backing up a single source directory to a single repository. 
 
 **STEP 9: Initialize the repository**
 
-This is described [here](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#local).
+Folllow these [instructions](https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html#local).
 
 **STEP 10: Create a file containing the repository password**
 
 1. In QTerminal, launch Lumina Text Editor as root using `sudo lte`
-2. Enter the respository password
-3. Click the **Save** icon
-4. Give the file a name - we'll call it *PasswordFilename* here - and save it in the `/root` directory
+2. Enter the respository password. Ensure there is absolutely nothing else in the file
+3. Click the Save icon
+4. Name the file - this guide will call it *PasswordFilename* - and save it in the `/root` directory
 
 **STEP 11: Ensure only root can read the repository password file**
 
-Because anyone with access to this file will also have access to the repository, it is important that only root can read the file. 
+It is important that only root can read the file so that the password isn't compromised.
 
 1. In QTerminal, navigate to `/root` via running `cd /root`
 2. Change the permissions of the password file so that only the owner can read it, by running `sudo chmod 600 PasswordFilename`
@@ -113,28 +115,28 @@ Because anyone with access to this file will also have access to the repository,
 
 **STEP 12: Create an environment variable for the password file**
 
-Automated backups will require the password, but with no user around to enter it, the backup command needs some way to access said password, contained in the password file. It does this by [reading an environment variable whose value is the password file's path](https://restic.readthedocs.io/en/latest/faq.html?highlight=password#how-can-i-specify-encryption-passwords-automatically). Create the environment variable via:
+Automated backups require the corresponding respository password without the user manually entering it. `restic` does this by [reading an environment variable whose value is the password file's path](https://restic.readthedocs.io/en/latest/faq.html?highlight=password#how-can-i-specify-encryption-passwords-automatically). Create the environment variable by:
 
 1. In QTerminal, run `export RESTIC_PASSWORD_FILE=/root/PasswordFilename`
 2. Test that the above command worked by running `$RESTIC_PASSWORD_FILE`. It should return `/root/PasswordFilename`
 
 **STEP 13: Construct your backup command**
 
-1. In QTerminal, run `which restic`. This will give you an absolute path to `restic`, which we'll call `AbsolutePathToRestic`. Typically it's `/usr/local/bin/restic`
+1. In QTerminal, run `which restic`. This will give you an absolute path to `restic`, which this guide will call `AbsolutePathToRestic`. Typically the absolute path is `/usr/local/bin/restic`
 2. Run `AbsolutePathToRestic -p $RESTIC_PASSWORD_FILE -r AbsolutePathToRepository --verbose backup AbsolutePathToSource`
-3. If 2) above is successful, then the backup command is the command in 2) without the `--verbose`: `AbsolutePathToRestic -p $RESTIC_PASSWORD_FILE -r AbsolutePathToRepository backup AbsolutePathToSource`
+3. If 2) above is successful, then the backup command is the same but without the `--verbose`: `AbsolutePathToRestic -p $RESTIC_PASSWORD_FILE -r AbsolutePathToRepository backup AbsolutePathToSource`
 
 **STEP 14: Determine the crontab schedule for your backups**
 
 1. Think about how often you want to create backups
 2. The above bulletpoint is determined entirely by crontab, so *write down* a crontab schedule that matches the above, based on the crontab syntax in 2.1 above
-3. Pay attention to how long it took for the command in 13.2 to run. There should be *at least* this much time between backups to prevent collisions
+3. Pay attention to how long it took for the command in 13.2 to run. There should be *at least* that much time between backups to prevent job collisions
 
 A couple details about 2.1:
 
-* crontab fields support whole numbers only, e.g. `0 2 * * *` will work, `0 2.2 * * *` will not work
-* /*n*, where *n* is a whole number, e.g. `0/5`, does not work (the way you might think) for the Minutes field. Without going into details, just avoid it
-* The `@`*n*`s` syntax, where *n* is a whole number, e.g. `@1000s`, is much easier to understand than the individual fields. In addition, it ensures that each successive invocation happens *n* seconds *after the previous one has completed*, which means tasks in the same family (crontab entry) never collide (read: attempt to start a new instance before the previous instance has completed. This is generally not an issue for snapshot creation because it's instantaneous, but may be an issue for snapshot deletion). The main drawback is it's a more difficult to set jobs based on absolute calendar date and time
+* crontab fields support whole numbers only; e.g. `0 2 * * *` will work, `0 2.2 * * *` will not work
+* /*n*, where *n* is a number, does not work in the **Minutes** field. Without going into details, just avoid it
+* The `@`*n*`s` syntax, where *n* is a whole number, is much easier to understand than the individual fields. It ensures that each successive invocation happens *n* seconds *after the previous one has completed*. This means tasks in the same crontab entry never collide. The main drawback is it's more difficult to set jobs based on absolute calendar date and time
 
 An example of a crontab schedule is `0	14	*	*	*` (tab separated), which translates to:
 
@@ -161,8 +163,6 @@ Which translates to:
  
 Or, put into one sentence: As root, open the repository using the password and backup the source to the repository every day at 14:00/2 PM.
 
-You can have as many backup creation entries in crontab as you want.
-
 **STEP 16: Create a backup retention policy**
 
 This is described [here](https://restic.readthedocs.io/en/latest/060_forget.html#removing-snapshots-according-to-a-policy).
@@ -171,7 +171,7 @@ The command you come up with should look like: `AbsolutePathToRestic -p $RESTIC_
 
 **STEP 17: Determine the crontab schedule for your backup pruning**
 
-The process for this is exactly the same as it is in Step 14, though it's a good idea to ensure that backups and prunes don't occur simultaneously. Note that while `restic`'s documentation treats backup deletion and pruning as separate operations, for the purposes of this guide they will be treated as being synonymous. 
+This is similar to Step 14, while ensuring that backups and prunes don't occur simultaneously. 
 
 **STEP 18: Match desired prunes with their corresponding crontab schedules to create single, complete crontab entries for each prune, with the user the `restic` command should run as**
 
@@ -192,10 +192,10 @@ Which translates to:
 
 Or, put into a single sentence: As root, open the repository using the password and delete all backups made more than 100000 seconds after the completion of the previous invocation and their associated data that except the 7 most recent backups.
 
-**STEP 19: Put each combined (schedule + `restic` command) command into `/etc/crontab`**
+**STEP 19: Put each combined `cron` + `restic` command into `/etc/crontab`**
 
 1. Open crontab in Lumina Text Editor via `sudo lte /etc/crontab`. Unlike on (some) Linux distros, crontab can be edited directly in a GUI application on Project Trident.
-2. Put each combined command into the crontab file, with each line preceded by a comment describing what the line does. This is helpful for troubleshooting; in a crisis the last thing you want to be doing is trying to divine exactly what each line is doing. See below for what that should look like
+2. Put each combined command into the crontab file, with each line preceded by a comment describing what the line does. This is helpful for troubleshooting
 3. Save the crontab file and exit Lumina Text Editor
 
 The additional crontab entries should look like this:
@@ -203,10 +203,12 @@ The additional crontab entries should look like this:
 ```
 # Create a backup of source directory daily at 2 PM
 
-`0 14 * * * root AbsolutePathToRestic -p $RESTIC_PASSWORD_FILE -r AbsolutePathToRepository backup AbsolutePathToSource`
+0 14 * * * root AbsolutePathToRestic -p $RESTIC_PASSWORD_FILE -r AbsolutePathToRepository backup AbsolutePathToSource
 ```
 
 ```
 # Delete all backups and associated data from repository except for the most recent 7
 
-`@100000 root AbsolutePathToRestic -p $RESTIC_PASSWORD_FILE -r AbsolutePathToRepository forget --keep-last 7 -prune`
+@100000 root AbsolutePathToRestic -p $RESTIC_PASSWORD_FILE -r AbsolutePathToRepository forget --keep-last 7 -prune
+```
+And that's it!
