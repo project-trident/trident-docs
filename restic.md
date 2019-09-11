@@ -117,8 +117,18 @@ It is important that only root can read the file so that the password isn't comp
 
 Automated backups require the corresponding respository password without the user manually entering it. `restic` does this by [reading an environment variable whose value is the password file's path](https://restic.readthedocs.io/en/latest/faq.html?highlight=password#how-can-i-specify-encryption-passwords-automatically). Create the environment variable by:
 
-1. In QTerminal, run `export RESTIC_PASSWORD_FILE=/root/PasswordFilename`
-2. Test that the above command worked by running `$RESTIC_PASSWORD_FILE`. It should return `/root/PasswordFilename`
+1. In QTerminal, run `sudo lte ~/.zshrc`
+2. On a new line in the window that pops up, enter:
+
+```
+# Export restic password file environment variable
+export RESTIC_PASSWORD_FILE=/root/PasswordFilename
+```
+
+in a new line
+
+3. In QTerminal, run `source ~/.zshrc` to update the shell with the new exported environment variable
+4. Test that the above command worked by running `$RESTIC_PASSWORD_FILE`. It should return `/root/PasswordFilename`
 
 **STEP 13: Construct your backup command**
 
@@ -138,7 +148,7 @@ A couple details about 2.1:
 * /*n*, where *n* is a number, does not work in the **Minutes** field. Without going into details, just avoid it
 * The `@`*n*`s` syntax, where *n* is a whole number, is much easier to understand than the individual fields. It ensures that each successive invocation happens *n* seconds *after the previous one has completed*. This means tasks in the same crontab entry never collide. The main drawback is it's more difficult to set jobs based on absolute calendar date and time
 
-An example of a crontab schedule is `0	14	*	*	*` (tab separated), which translates to:
+Crontab schedules consist of five numeric or asterisk `*` values separated by tabs. For example, `0	14	*	*	*` translates to:
 
 * Every time the system clock time value is 0 minutes, 14 hours (represented by `0 14`, evaluates to 14:00/2:00 PM) ...
 * Regardless of the day of the month, the month, or the day of the week (what `* * *` stand for, respectively)
