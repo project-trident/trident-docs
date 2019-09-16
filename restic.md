@@ -138,7 +138,7 @@ Crontab schedules consist of five numeric or asterisk `*` values separated by ta
 
 Or, put into one sentence: Every day at 14:00/2 PM.
 
-## STEP 14: Match desired backups with their corresponding crontab schedules to create single, complete crontab entries for each backup, with the user the `restic` command should run as**
+## STEP 14: Match desired backups with their corresponding crontab schedules to create single, complete crontab entries for each backup, with the user the `restic` command should run as
 
 For example, putting the examples in Steps 12 and 14 together - in that sequence - into a sample crontab entry gives:
 
@@ -162,11 +162,11 @@ This is described [here](https://restic.readthedocs.io/en/latest/060_forget.html
 
 The command you come up with should look like: `AbsolutePathToRestic -p /root/PasswordFilename -r AbsolutePathToRepository forget --ForgetParameters -prune`. Note the lack of reference to the source directories; this command covers *all* the contents of a repository regardless of source.
 
-## STEP 16: Determine the crontab schedule for your backup pruning**
+## STEP 16: Determine the crontab schedule for your backup pruning
 
 This is similar to Step 14, while ensuring that backups and prunes don't occur simultaneously. 
 
-## STEP 17: Match desired prunes with their corresponding crontab schedules to create single, complete crontab entries for each prune, with the user the `restic` command should run as**
+## STEP 17: Match desired prunes with their corresponding crontab schedules to create single, complete crontab entries for each prune, with the user the `restic` command should run as
 
 An example of a combined command for the above is:
 
