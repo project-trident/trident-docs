@@ -1,0 +1,33 @@
+To import the external drive, all as root;
+
+zpool import					        {this will show the pool #}
+
+zpool import 4173329554950097962 		        {the ID of my external drive}
+
+zfs mount 					        {this should show it mounted on the /}
+
+
+To backup to the external drive;
+
+zfs send 						{last snapshot. If no snapshot, spool/directory}:
+
+zfs list -t snapshot					{grab the latest snapshot}
+
+zfs send (latest snapshot)  >    zfs_backup/(name)      {or where ever your zfs back pool is located}
+
+zfs export (pool name)					{to un-mount to new system}
+
+
+
+To restore from the external drive;
+
+zpool import 4173329554950097962		        {the ID of my external drive}
+
+zfs receive -F (zpool)/home  >    zfs_backup/(name)     {or where ever your zfs back pool is located}
+
+To do an incremental backup to the external drive;
+
+zfs send -I (zpool)/(old snapshot) (zpool)/(new snapshot)  >    zfs_backup/(name) 
+						        {or where ever your zfs back pool is located}
+
+  
