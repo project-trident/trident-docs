@@ -1,6 +1,6 @@
 To import the external drive, all as root;
 
-zpool import					        {this will show the pool #}
+zpool import					        {this will show the pool ID#}
 
 zpool import 4173329554950097962 		        {the ID of my external drive}
 
