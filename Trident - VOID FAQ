@@ -1,7 +1,7 @@
 From day 1;
 
-/etc/rc.conf
-	where to change locale, timezone, and keymap entry
+where to change locale, timezone, and keymap entry
+	/etc/rc.conf
 
 about 
 	neofetch (does the same thing)
