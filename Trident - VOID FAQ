@@ -1,0 +1,16 @@
+From day 1;
+
+/etc/rc.conf
+	where to change locale, timezone, and keymap entry
+
+about 
+	neofetch (does the same thing)
+
+you will get a command line login prompt
+	to get the GUI, type -> 	start-lumina-desktop
+
+so sound
+	after logging in, type -> 	start-pulseaudio-x11
+
+gui to see & log into WiFi
+	in a terminal type ->  sudo xbps-install -Suv wpa-cute
